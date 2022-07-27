@@ -17,17 +17,26 @@ export default function content() {
 function createSidebar() {
     const sidebar = document.createElement('div');
     sidebar.classList.add('sidebar');
-
+    sidebar.appendChild(createTasks());
     return sidebar;
 }
 
 function createTasks() {
-    //All tasks
-    //Today
-    //This week
-    //this month
-    const projectWrapper = document.createElement('div');
-    projectWrapper.classList.add('project-wrapper');
+    const tasksArray = ["All tasks", "Today", "This week", "This month"];
+    const taskWrapper = document.createElement('div');
+    taskWrapper.classList.add('task-wrapper');
+
+    // creates the task ul and appends every default task
+    const taskList = document.createElement('ul');
+    taskList.classList.add('sidebar-content')
+    for(let i=0; i < tasksArray.length; i++) {
+        let task = document.createElement('li');
+        task.innerText = tasksArray[i];
+        taskList.appendChild(task);
+    }
+
+    taskWrapper.appendChild(taskList);
+    return taskWrapper;
 }
 
 
