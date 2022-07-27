@@ -5,11 +5,20 @@ import './style.css';
 
 import header from './header.js';
 import content from './content.js'
+import sidebar from './sidebar.js'
 
 
 function createPage() {
     document.body.appendChild(header());
-    document.body.appendChild(content());
+    // document.body.appendChild(sidebar());
+
+    const contentContainer = document.createElement('div');
+    contentContainer.classList.add("content-container");
+
+    contentContainer.appendChild(sidebar());
+    contentContainer.appendChild(content());
+
+    document.body.appendChild(contentContainer);
 }
 
 
