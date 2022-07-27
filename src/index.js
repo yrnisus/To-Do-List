@@ -15,6 +15,10 @@ function createPage() {
     const contentContainer = document.createElement('div');
     contentContainer.classList.add("content-container");
 
+    // const empty = document.createElement('div');
+    // empty.classList.add("empty");
+    // contentContainer.appendChild(empty);
+
     contentContainer.appendChild(sidebar());
     contentContainer.appendChild(content());
 
