@@ -40,12 +40,18 @@ function createAddTaskBtn() {
 function populateTaskList() {
     const tasksList = document.createElement('div');
     tasksList.classList.add('tasks-list');
+
     //Circle(Completed) Name Description Date Priority Edit
+    // dayText.innerHTML += format(new Date(), 'eeee');
     for (let i = 0; i < taskArray.length; i++) {
         const task = document.createElement('div');
         task.classList.add('task');
-        task.innerHTML= `${taskArray[0].getCompleted()}`;
-        tasksList.appendChild(task);
+        task.innerHTML= `<div class='task-left'><i class='fa-regular fa-circle' id='completed-icon'></i>
+        <div id='task-name'>${taskArray[0].getTitle()}</div></div><div class='task-right'><div id='task-date'>${format(new Date(taskArray[0].getDate()), 'MM/dd/yyyy')}</div></div>`;
+        const tasksWrapper = document.createElement('div');
+        tasksWrapper.classList.add('task-wrapper');
+        tasksWrapper.appendChild(task);
+        tasksList.appendChild(tasksWrapper);
     }
 
     return tasksList;

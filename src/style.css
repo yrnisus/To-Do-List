@@ -77,7 +77,7 @@ header {
     width: 85%;
 }
 
-.task-wrapper {
+.sidebar-li-wrapper {
     margin-top: 20px;
 }
 
@@ -167,10 +167,26 @@ ul {
     gap: 20px;
 }
 
-.task {
+.task-wrapper {
     height: 40px;
     width: 100%;
     display: flex;
-    border: 2px solid rebeccapurple;
     align-items: center;
+    border: 2px solid rebeccapurple;
+    border-radius: 10px;
+}
+
+.task {
+    display: flex;
+    margin: 0 5px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.task-left, .task-right {
+    display: flex;
+    gap: 5px;
+}
+
+#completed-icon {
 }

@@ -18,7 +18,7 @@ export default function sidebar() {
 
 function createTasks() {
     const taskWrapper = document.createElement('div');
-    taskWrapper.classList.add('task-wrapper');
+    taskWrapper.classList.add('sidebar-li-wrapper');
     taskWrapper.appendChild(createTasksHeading());
     taskWrapper.appendChild(createTasksList());
     return taskWrapper;
