@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 //Title, Description, Date, Completed Status, priority
 //searchable tags would be cool
 
-export default class Task {
+class Task {
     //private variabes
     #title;
     #description;
@@ -25,3 +25,34 @@ export default class Task {
         getPriority = () => this.#priority;
         getCompleted = () => this.#completed;
 }
+
+const testTask = new Task("Garbage1", "Take out the trash", new Date(), "Urgent", false);
+const taskArray = [testTask, createAddTaskBtn()];
+//should always be at the end of task list
+
+function createAddTaskBtn() {
+    const addTaskBtn = document.createElement('div');
+    addTaskBtn.classList.add('task', 'add-task-btn');
+    addTaskBtn.innerHTML+="Add task";
+    return addTaskBtn;
+}
+
+function populateTaskList() {
+    const tasksList = document.createElement('div');
+    tasksList.classList.add('tasks-list');
+    //Circle(Completed) Name Description Date Priority Edit
+    for (let i = 0; i < taskArray.length; i++) {
+        const task = document.createElement('div');
+        task.classList.add('task');
+        task.innerHTML= `${taskArray[0].getCompleted()}`;
+        tasksList.appendChild(task);
+    }
+
+    return tasksList;
+
+}
+
+
+
+
+export { Task, populateTaskList, taskArray };

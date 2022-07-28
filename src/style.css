@@ -172,4 +172,5 @@ ul {
     width: 100%;
     display: flex;
     border: 2px solid rebeccapurple;
+    align-items: center;
 }
