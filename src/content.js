@@ -1,5 +1,5 @@
 import {format} from 'date-fns'
-import {Task, populateTaskList, addTask, taskArray} from './task.js';
+import {populateTaskList, addTask} from './task.js';
 // import { format, formatDistance, formatRelative, subDays } from 'date-fns'
 
 

@@ -225,6 +225,7 @@ form {
 
 input, textarea, select {
     margin-bottom: 15px;
+    padding: 5px;
 }
 
 .hidden {
@@ -236,9 +237,10 @@ input, textarea, select {
     justify-content: center;
     width: min(50% - 2rem);
     margin-inline: auto;
+    gap: 20px
 }
 
-.form-buttons>button {
+.form-buttons>input{
     width: 200px;
 
 }
