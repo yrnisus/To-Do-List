@@ -36,7 +36,7 @@ class Task {
 // const testTask = new Task("Garbage", "Take out the trash", new Date(), "Urgent", false);
 // const testTask2 = new Task("Christmas", "Christmas Day", new Date('December 25, 2022'), "Urgent", false);
 // const taskArray = [testTask, testTask2];
-
+const taskArray = [];
 
 // createAddTaskBtn()
 //should always be at the end of task list
