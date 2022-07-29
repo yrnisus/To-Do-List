@@ -45,15 +45,22 @@ function newTaskForm() {
     //creates the form
     const newTaskFormWrapper = document.createElement('div');
     newTaskFormWrapper.classList.add('new-task-form-wrapper', 'hidden');
-    newTaskFormWrapper.innerHTML = '<form onsubmit="return false" action="#"><label for="taskName">Task:</label><input type="text" id="taskName" name="taskName"><label for="description">Description</label><textarea name="description" id="description" rows="3"></textarea><label for="date">Date</label><input type="date" onfocus="this.showPicker()" id="date" name="date"><label for="urgency">Urgency</label><select name="urgency" id="urgencyt"><option value="">--Please select an option--</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select><div class="form-button-wrapper"><input class="form-button" type="submit" value="Add"><input class="form-button" type="reset" value="Cancel"></div></form>';
+    newTaskFormWrapper.innerHTML = '<form onsubmit="return false" action="#"><label for="taskName">Task:</label><input type="text" id="taskName" name="taskName" required><label for="description">Description</label><textarea name="description" id="description" rows="3"></textarea><label for="date">Date</label><input type="date" onfocus="this.showPicker()" id="date" name="date"><label for="urgency">Urgency</label><select name="urgency" id="urgency"><option value="">--Please select an option--</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select><div class="form-button-wrapper"><input class="form-button" type="submit" value="Add"><input class="form-button" type="reset" value="Cancel"></div></form>';
 
     // const btn = newTaskFormWrapper.querySelector("#submit-btn");
     //adds the event listener to the form submission to get input values
     const form = newTaskFormWrapper.querySelector('form');
     getFormInputs(form);
-
     return newTaskFormWrapper;
 }
+
+function checkFormInputs() {
+    document.getElementById('taskName').validity.valid
+    document.getElementById('description').validity.valid
+    document.getElementById('date').validity.valid
+    document.getElementById('urgency').validity.valid
+  }
+
 
 
 function getFormInputs(form) {
@@ -87,11 +94,6 @@ function createTaskObject(x) {
     tasksWrapper.classList.add('task-wrapper');
     tasksWrapper.appendChild(task);
     tasksList.appendChild(tasksWrapper);
-    
-    //     let dateTest = format(x.getDate(), 'MM/dd');
-    // console.log(dateTest);
-
-
 }
 
 //populate initial task list
@@ -114,6 +116,7 @@ function cleanDate(date) {
     date = format(new Date(date.replaceAll('-', ', ')), 'MM/dd/yy');
     return date;
 }
+
 
 populateTaskList();
 export {createFormAndAddTaskWrapper};
