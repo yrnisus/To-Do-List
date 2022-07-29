@@ -77,14 +77,21 @@ function createTaskObject(x) {
     const tasksList = document.getElementById('tasks-list');
     const task = document.createElement('div');
     task.classList.add('task');
+    let date = cleanDate(x.getDate())
+
     task.innerHTML= `<div class='task-left'><i class='fa-regular fa-circle' id='completed-icon'></i>
-    <div id='task-name'>${x.getTaskName()}</div></div><div class='task-right'><div id='task-date'></div>`;
+    <div id='task-name'>${x.getTaskName()}</div></div><div class='task-right'><div id='task-date'>${date}</div>`;
 
     // ${format(new Date(taskArray[i].getDate()), 'MM/dd/yyyy')}</div><
     const tasksWrapper = document.createElement('div');
     tasksWrapper.classList.add('task-wrapper');
     tasksWrapper.appendChild(task);
     tasksList.appendChild(tasksWrapper);
+    
+    //     let dateTest = format(x.getDate(), 'MM/dd');
+    // console.log(dateTest);
+
+
 }
 
 //populate initial task list
@@ -98,9 +105,15 @@ function populateTaskList() {
     })
 }
 
+//adds new task object to task list when form submitted
 function addNewTaskToTaskList(newTask) {
     createTaskObject(newTask);
 }
 
+function cleanDate(date) {
+    date = format(new Date(date.replaceAll('-', ', ')), 'MM/dd/yy');
+    return date;
+}
+
 populateTaskList();
-export {populateTaskList, createFormAndAddTaskWrapper};
+export {createFormAndAddTaskWrapper};

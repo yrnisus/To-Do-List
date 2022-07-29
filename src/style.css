@@ -6,6 +6,10 @@
     --highlight-color: #FFCC85;
     --bg-color: #FFF;
     --bg-dark-color: #D6D6D6;
+
+    --high-urgency: #ea1520;
+    --medium-urgency: #d5ff00;
+    --low-urgency: #19f00f;
 }
 
 .unselectable {

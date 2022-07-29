@@ -1,5 +1,5 @@
 import {format} from 'date-fns'
-import {populateTaskList, createFormAndAddTaskWrapper} from './dom-manipulation.js';
+import {createFormAndAddTaskWrapper} from './dom-manipulation.js';
 // import { format, formatDistance, formatRelative, subDays } from 'date-fns'
 
 
@@ -15,17 +15,11 @@ export default function content() {
     contentWrapper.appendChild(createContentHeading());
     
 
-    //this only works on page load, need a way to to fire on every time new task added
+    //creates task list on pageload
     const tasksList = document.createElement('div');
     tasksList.classList.add('tasks-list');
     tasksList.setAttribute('id', 'tasks-list')
 
-    console.log(`Content: ${tasksList}`);
-
-    // const tasksList = document.createElement('div');
-
-
-    // contentWrapper.appendChild(populateTaskList());
     contentWrapper.appendChild(tasksList);
     contentWrapper.appendChild(createFormAndAddTaskWrapper());
 
