@@ -1,5 +1,5 @@
 import {format} from 'date-fns'
-import {Task, populateTaskList, taskArray} from './task.js';
+import {Task, populateTaskList, addTask, taskArray} from './task.js';
 // import { format, formatDistance, formatRelative, subDays } from 'date-fns'
 
 
@@ -14,6 +14,7 @@ export default function content() {
 
     contentWrapper.appendChild(createContentHeading());
     contentWrapper.appendChild(populateTaskList());
+    contentWrapper.appendChild(addTask());
 
     contentContainer.appendChild(contentWrapper);
     return contentContainer;
@@ -44,7 +45,5 @@ function createContentHeading() {
 
     contentTitle.appendChild(dateWrapper);
     contentHeadingWrapper.appendChild(contentTitle);
-
-
     return contentHeadingWrapper;
 }

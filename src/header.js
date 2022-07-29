@@ -18,11 +18,13 @@ export default function header() {
   taskIcon.classList.add("fa-solid", "fa-list-check");
 
   headerWrapper.appendChild(menuIconWrapper);
-  headerWrapper.appendChild(taskIcon);
+
+  // centered text would like to remove
+  // headerWrapper.appendChild(taskIcon);
 
   const headerText = document.createElement('div');
   headerText.classList.add("header-text");
-  headerText.innerText = "New Day";
+  headerText.innerText = "To Do";
 
   headerWrapper.appendChild(headerText);
   header.appendChild(headerWrapper);
