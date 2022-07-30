@@ -299,8 +299,8 @@ select {
 }
 
 .task-wrapper.high {
-    /* border: 3px solid #FF6E6C; */
-    background-color: #861a16;
+    background-color: #861a16;;
+    border-bottom: none;
 }
 
 .task-wrapper.medium {
@@ -310,6 +310,7 @@ select {
 
 .task-wrapper.low {
     /* border: 3px solid #72FB6B; */
-    background-color: #D8FED6;
+    background-color: #194e1a;
+
 
 }

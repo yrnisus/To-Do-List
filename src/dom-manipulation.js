@@ -47,7 +47,7 @@ function createTaskObject(x) {
     task.innerHTML = `<div class='task-left'><span class='x' id='completed-icon'><i class='fa-solid fa-circle'></i></span>
     <div id='task-name'>${x.getTaskName()}</div></div><div class='task-right'><div id='task-date'>${date}</div></div>`;
 
-    // Dropdown description
+    // Dropdown descriptiono
     const taskDescriptionWrapper = document.createElement('div');
     taskDescriptionWrapper.classList.add('task-description-wrapper')
     taskDescriptionWrapper.innerHTML = `<div class="task-description">${x.getDescription()}</div>`
