@@ -1,5 +1,13 @@
-import { format } from 'date-fns'
-import {Task} from './task.js'
+import {
+    format
+} from 'date-fns'
+import {
+    Task
+} from './task.js'
+import {
+    newTaskForm,
+    getFormInputs
+} from './form.js'
 
 // const testTask = new Task("Garbage", "Take out the trash", new Date(), "Urgent");
 // const testTask2 = new Task("Christmas", "Christmas Day", new Date('December 25, 2022'), "Urgent", false);
@@ -9,74 +17,25 @@ const taskArray = [];
 //creates div containing the form for a new task and the add task button
 function createFormAndAddTaskWrapper() {
     const ele = document.createElement('div');
-
+    ele.classList.add('add-wrapper');
     const addTaskBtn = createAddTaskBtn();
     const newTaskFormWrapper = newTaskForm();
-    // when add task button is clicked unhide the new task form
-    addTaskBtn.addEventListener('click', () => {
-        if(newTaskFormWrapper.classList.contains('hidden'))
-        newTaskFormWrapper.classList.remove('hidden');
-        addTaskBtn.classList.add("hidden");
-    })
-
-    //when either submit or cancel button is clicked hide the form show the add task button
-   newTaskFormWrapper.querySelectorAll('.form-button').forEach(button => {
-    button.addEventListener("click", () => {
-        if(addTaskBtn.classList.contains('hidden'))
-            addTaskBtn.classList.remove('hidden');
-        newTaskFormWrapper.classList.add('hidden');
-    })
-  })
     ele.appendChild(newTaskFormWrapper);
     ele.appendChild(addTaskBtn);
-
     return ele;
 }
 //creates the div for the add Task button
 function createAddTaskBtn() {
     const addTaskBtn = document.createElement('div');
-    addTaskBtn.classList.add('task', 'add-task-btn', 'unselectable');
-    addTaskBtn.innerHTML+='<i class="fa-solid fa-plus"></i> Add task';
+    addTaskBtn.classList.add('add-task-btn', 'unselectable');
+    addTaskBtn.innerHTML += '<i class="fa-solid fa-plus"></i> Add task';
     return addTaskBtn;
 
 }
 
-function newTaskForm() {
-    //creates the form
-    const newTaskFormWrapper = document.createElement('div');
-    newTaskFormWrapper.classList.add('new-task-form-wrapper', 'hidden');
-    newTaskFormWrapper.innerHTML = '<form onsubmit="return false" action="#"><label for="taskName">Task:</label><input type="text" id="taskName" name="taskName" required><label for="description">Description</label><textarea name="description" id="description" rows="3"></textarea><label for="date">Date</label><input type="date" onfocus="this.showPicker()" id="date" name="date"><label for="urgency">Urgency</label><select name="urgency" id="urgency"><option value="">--Please select an option--</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select><div class="form-button-wrapper"><input class="form-button" type="submit" value="Add"><input class="form-button" type="reset" value="Cancel"></div></form>';
-
-    // const btn = newTaskFormWrapper.querySelector("#submit-btn");
-    //adds the event listener to the form submission to get input values
-    const form = newTaskFormWrapper.querySelector('form');
-    getFormInputs(form);
-    return newTaskFormWrapper;
-}
-
-function checkFormInputs() {
-    document.getElementById('taskName').validity.valid
-    document.getElementById('description').validity.valid
-    document.getElementById('date').validity.valid
-    document.getElementById('urgency').validity.valid
-  }
-
-
-
-function getFormInputs(form) {
-    form.addEventListener('submit', function() {
-        const formData = new FormData(form);
-        //formProps is an array of all of the data from the form
-        const formProps = Object.fromEntries(formData);
-        const newTask = new Task(formProps);
-        addTaskToArray(newTask);
-        addNewTaskToTaskList(newTask);
-     })
-}
-
-function addTaskToArray(newTask) {
+function addTask(newTask) {
     taskArray.push(newTask);
-    console.log(taskArray);
+    createTaskObject(newTask);
 }
 
 
@@ -85,15 +44,27 @@ function createTaskObject(x) {
     const task = document.createElement('div');
     task.classList.add('task');
     let date = cleanDate(x.getDate())
+    task.innerHTML = `<div class='task-left'><span class='x' id='completed-icon'><i class='fa-solid fa-circle'></i></span>
+    <div id='task-name'>${x.getTaskName()}</div></div><div class='task-right'><div id='task-date'>${date}</div></div>`;
 
-    task.innerHTML= `<div class='task-left'><i class='fa-regular fa-circle' id='completed-icon'></i>
-    <div id='task-name'>${x.getTaskName()}</div></div><div class='task-right'><div id='task-date'>${date}</div>`;
+    // Dropdown description
+    const taskDescriptionWrapper = document.createElement('div');
+    taskDescriptionWrapper.classList.add('task-description-wrapper')
+    taskDescriptionWrapper.innerHTML = `<div class="task-description">${x.getDescription()}</div>`
 
     // ${format(new Date(taskArray[i].getDate()), 'MM/dd/yyyy')}</div><
     const tasksWrapper = document.createElement('div');
     tasksWrapper.classList.add('task-wrapper');
     tasksWrapper.appendChild(task);
+    // tasksWrapper.appendChild(taskDescriptionWrapper);
+
+
     tasksList.appendChild(tasksWrapper);
+    tasksList.appendChild(taskDescriptionWrapper);
+    //changes border-color of task
+    setUrgencyColor(tasksWrapper, x.getUrgency());
+    const icon = document.querySelector('#completed-icon');
+    toggleIcon(icon);
 }
 
 //populate initial task list
@@ -107,16 +78,57 @@ function populateTaskList() {
     })
 }
 
-//adds new task object to task list when form submitted
-function addNewTaskToTaskList(newTask) {
-    createTaskObject(newTask);
-}
-
 function cleanDate(date) {
     date = format(new Date(date.replaceAll('-', ', ')), 'MM/dd/yy');
     return date;
 }
 
+function setUrgencyColor(taskWrapper, urgency) {
+    taskWrapper.classList.add(`${urgency}`);
+}
+
+function toggleIcon(icon) {
+    const svg = document.createElement('i');
+    icon.addEventListener('click', () => {
+        svg.setAttribute('class', "");
+        icon.innerHTML = "";
+        if (icon.classList.contains('x')) {
+            svg.classList.add('fa-solid', 'fa-circle-check');
+            icon.classList.remove('x');
+        } else {
+            svg.classList.add('fa-solid', 'fa-circle');
+            icon.classList.add('x');
+        }
+        icon.appendChild(svg);
+    })
+}
+
+
+function eventListeners() {
+    window.addEventListener("load", () => {
+        // when add task button is clicked unhide the new task form
+        const addTaskBtn = document.querySelector('.add-task-btn')
+        const newTaskFormWrapper = document.querySelector('.new-task-form-wrapper');
+        addTaskBtn.addEventListener('click', () => {
+            if (newTaskFormWrapper.classList.contains('hidden'))
+                newTaskFormWrapper.classList.remove('hidden');
+            addTaskBtn.classList.add("hidden");
+        })
+
+
+        //when either submit or cancel button is clicked hide the form show the add task button
+        document.getElementById('cancel-btn').addEventListener("click", () => {
+            if (addTaskBtn.classList.contains('hidden'))
+                addTaskBtn.classList.remove('hidden');
+            newTaskFormWrapper.classList.add('hidden');
+        })
+    })
+}
+
 
 populateTaskList();
-export {createFormAndAddTaskWrapper};
+eventListeners();
+export {
+    createFormAndAddTaskWrapper,
+    addTask
+};

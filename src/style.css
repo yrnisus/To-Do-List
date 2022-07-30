@@ -6,11 +6,8 @@
     --highlight-color: #FFCC85;
     --bg-color: #FFF;
     --bg-dark-color: #D6D6D6;
-
-    --high-urgency: #ea1520;
-    --medium-urgency: #d5ff00;
-    --low-urgency: #19f00f;
 }
+
 
 .unselectable {
     -webkit-user-select: none;
@@ -38,7 +35,7 @@ body {
 header {
     width: 100%;
     height: 80px;
-    background-color: var(--blue);
+    background-image: linear-gradient(to bottom, #f6c65b, #f8c14b, #f9bb3b, #fbb627, #fdb006);
     display: flex;
     align-items: center;
     position: fixed;
@@ -181,7 +178,7 @@ ul {
 .tasks-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    align-items: center;
 }
 
 .task-wrapper {
@@ -189,27 +186,67 @@ ul {
     width: 100%;
     display: flex;
     align-items: center;
-    /* border: 2px solid rebeccapurple; */
-    border-radius: 10px;
+    border-radius: 25px 25px 0 0;
+    flex-direction: column;
+    gap:10px;
+    border: 2px solid black;
 }
 
 .task {
+    color: #FFF;
     display: flex;
-    margin: 0 5px;
-    width: 100%;
+    width: 90%;
+    height: 100%;
     justify-content: space-between;
+    align-items: center;
 }
 
+.task-left, .task-right {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+#task-name {
+    font-size: 28px;
+    margin-left: 20px;
+}
+
+#task-date {
+    font-size: 24px;
+}
 .task-left,
 .task-right {
     display: flex;
-    gap: 5px;
+}
+#completed-icon {
+    display: inline-block;
 }
 
-#completed-icon {}
+#completed-icon > svg {
+    cursor: pointer;
+    color: #fff;
+    font-size: 24x;
+    width: 28px;
+    height: 28px;
+}
+
+.task-description-wrapper {
+    display: flex;
+    border: 2px solid black;
+    border-radius: 0 0 25px 25px;
+    border-top: none;
+    width: 100%;
+}
+
+.task-description{
+    align-items: center;
+    color: black;
+    margin: 20px;
+  }
 
 
-/* Add task section */
+/* Form section */
 
 form {
     display: flex;
@@ -235,7 +272,6 @@ form {
     width: min(30% - 2rem);
     margin-inline: auto;
     gap: 5px;
-    margin-top: 25px;
 }
 
 input,
@@ -261,12 +297,18 @@ select {
     width: 200px;
 }
 
-/* button, input[type="submit"], input[type="reset"] {
-	background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-} */
+.task-wrapper.high {
+    /* border: 3px solid #FF6E6C; */
+    background-color: #FFA09F;
+}
+
+.task-wrapper.medium {
+    /* border: 3px solid #E0FF6B; */
+    background-color: #F6FFD4;
+}
+
+.task-wrapper.low {
+    /* border: 3px solid #72FB6B; */
+    background-color: #D8FED6;
+
+}
