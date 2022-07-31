@@ -320,12 +320,13 @@ ul {
 
 .task-description-wrapper {
     display: none;
+    margin-top: -5px;
     /* display: flex; */
-    border: 3px solid black;
+    border: 5px solid black;
     border-radius: 0 0 50px 50px;
     border-top: none;
     width: max(700px);
-    height: min(100px);
+    height: min(60px);
 }
 
 .task-description {

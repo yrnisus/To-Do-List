@@ -76,10 +76,9 @@ function createTaskObject(x) {
     const allIcons = task.querySelectorAll('.task-icon');
     //changes border-color of task
     setUrgencyColor(tasksWrapper, allIcons, x.getUrgency());
-    const icon = task.querySelector('#completed-icon');
-    toggleIcon(icon, x.getUrgency(), taskDescriptionWrapper);
+    // const icon = task.querySelector('#completed-icon');
+    toggleIcon(x.getUrgency(), tasksWrapper, taskDescriptionWrapper);
 }
-
 //populate initial task list
 function populateTaskList() {
     window.addEventListener("load", () => {
@@ -103,41 +102,45 @@ function setUrgencyColor(taskWrapper, allIcons, urgency) {
     }
 }
 
-function toggleIcon(icon, urgency, taskDescriptionWrapper) {
+function toggleIcon(urgency, taskWrapper, taskDescriptionWrapper) {
+    const icon = taskWrapper.querySelector('#completed-icon');
+    console.log(taskWrapper);
+    let view;
     icon.addEventListener('click', () => {
         if (icon.classList.contains('x')) {
             icon.innerHTML = `<i class='task-icon fa-solid fa-circle-chevron-up ${urgency}'></i>`
             icon.classList.remove('x');
-            taskDescriptionWrapper.style.display = "flex";
+            taskWrapper.style.borderRadius = '50px 50px 0px 0px';
+            view = 'flex';
         } else {
             icon.innerHTML = `<i class='task-icon fa-solid fa-circle-chevron-down ${urgency}'></i>`
             icon.classList.add('x');
-            taskDescriptionWrapper.style.display = "none";
+            taskWrapper.style.borderRadius = '50px 50px 50px 50px';
+            view = 'none';
         }
+        toggleDescription(view, taskDescriptionWrapper);
     })
 }
 
-function toggleDescription() {}
 
-
-// function toggleIcon(icon) {
-//     console.log(icon);
-//     const svg = document.createElement('i');
+// function toggleIcon(icon, urgency, taskDescriptionWrapper) {
 //     icon.addEventListener('click', () => {
-//         svg.setAttribute('class', "");
-//         icon.innerHTML = "";
 //         if (icon.classList.contains('x')) {
-//             svg.classList.add('fa-solid', 'fa-circle-chevron-up');
+//             icon.innerHTML = `<i class='task-icon fa-solid fa-circle-chevron-up ${urgency}'></i>`
 //             icon.classList.remove('x');
+//             taskDescriptionWrapper.style.display = "flex";
 //         } else {
-//             svg.classList.add('fa-solid', 'fa-circle-chevron-down');
+//             icon.innerHTML = `<i class='task-icon fa-solid fa-circle-chevron-down ${urgency}'></i>`
 //             icon.classList.add('x');
+//             taskDescriptionWrapper.style.display = "none";
 //         }
-//         icon.appendChild(svg);
-
-//         //<span class='x' id='completed-icon'><i class='task-icon fa-solid fa-circle-chevron-down'></i></span>
 //     })
 // }
+
+function toggleDescription(view, taskDescriptionWrapper) {
+    taskDescriptionWrapper.style.display = view;
+    // console.log();
+}
 
 
 function eventListeners() {
