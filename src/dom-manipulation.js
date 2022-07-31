@@ -40,12 +40,20 @@ function addTask(newTask) {
 
 
 function createTaskObject(x) {
+    //taskList is the container for every task
     const tasksList = document.getElementById('tasks-list');
+    //taskContainer is an individual line, completion square with taskWrapper next to it
+    const taskContainer = document.createElement('div');
+    taskContainer.classList.add('task-container');
+    //completion square is the square you click to mark a task complete
+    const completionSquare = document.createElement('div');
+    completionSquare.setAttribute('id', "completion-square");
+
     const task = document.createElement('div');
     task.classList.add('task');
     let date = cleanDate(x.getDate())
-    task.innerHTML = `<div class='task-left'><span class='x' id='completed-icon'><i class='fa-solid fa-circle'></i></span>
-    <div id='task-name'>${x.getTaskName()}</div></div><div class='task-right'><div id='task-date'>${date}</div></div>`;
+    task.innerHTML = `<div class='task-left'><span class='x' id='completed-icon'><i class='task-icon fa-solid fa-circle-chevron-down'></i></span>
+    <div class='task-name-date-wrapper'><div id='task-name'>${x.getTaskName()}</div><div id='task-date'>${date}</div></div></div><div class='task-right'><i id='empty-circle' class='task-icon fa-solid fa-circle'></i><i id='pencil' class='task-icon fa-solid fa-pencil'></i><i class='task-icon fa-solid fa-circle-xmark'></i></div>`;
 
     // Dropdown descriptiono
     const taskDescriptionWrapper = document.createElement('div');
@@ -58,13 +66,18 @@ function createTaskObject(x) {
     tasksWrapper.appendChild(task);
     // tasksWrapper.appendChild(taskDescriptionWrapper);
 
-
-    tasksList.appendChild(tasksWrapper);
+    //append the square to the container 
+    taskContainer.appendChild(completionSquare);
+    //apend the taskWrapper to the container
+    taskContainer.appendChild(tasksWrapper);
+    //append the entire line to the tasksList
+    tasksList.appendChild(taskContainer);
     tasksList.appendChild(taskDescriptionWrapper);
+    const allIcons = task.querySelectorAll('.task-icon');
     //changes border-color of task
-    setUrgencyColor(tasksWrapper, x.getUrgency());
-    const icon = document.querySelector('#completed-icon');
-    toggleIcon(icon);
+    setUrgencyColor(tasksWrapper, allIcons, x.getUrgency());
+    const icon = task.querySelector('#completed-icon');
+    toggleIcon(icon, x.getUrgency(), taskDescriptionWrapper);
 }
 
 //populate initial task list
@@ -83,25 +96,48 @@ function cleanDate(date) {
     return date;
 }
 
-function setUrgencyColor(taskWrapper, urgency) {
+function setUrgencyColor(taskWrapper, allIcons, urgency) {
     taskWrapper.classList.add(`${urgency}`);
+    for(let i=0; i < allIcons.length; i++) {
+        allIcons[i].classList.add(`${urgency}`);
+    }
 }
 
-function toggleIcon(icon) {
-    const svg = document.createElement('i');
+function toggleIcon(icon, urgency, taskDescriptionWrapper) {
     icon.addEventListener('click', () => {
-        svg.setAttribute('class', "");
-        icon.innerHTML = "";
         if (icon.classList.contains('x')) {
-            svg.classList.add('fa-solid', 'fa-circle-check');
+            icon.innerHTML = `<i class='task-icon fa-solid fa-circle-chevron-up ${urgency}'></i>`
             icon.classList.remove('x');
+            taskDescriptionWrapper.style.display = "flex";
         } else {
-            svg.classList.add('fa-solid', 'fa-circle');
+            icon.innerHTML = `<i class='task-icon fa-solid fa-circle-chevron-down ${urgency}'></i>`
             icon.classList.add('x');
+            taskDescriptionWrapper.style.display = "none";
         }
-        icon.appendChild(svg);
     })
 }
+
+function toggleDescription() {}
+
+
+// function toggleIcon(icon) {
+//     console.log(icon);
+//     const svg = document.createElement('i');
+//     icon.addEventListener('click', () => {
+//         svg.setAttribute('class', "");
+//         icon.innerHTML = "";
+//         if (icon.classList.contains('x')) {
+//             svg.classList.add('fa-solid', 'fa-circle-chevron-up');
+//             icon.classList.remove('x');
+//         } else {
+//             svg.classList.add('fa-solid', 'fa-circle-chevron-down');
+//             icon.classList.add('x');
+//         }
+//         icon.appendChild(svg);
+
+//         //<span class='x' id='completed-icon'><i class='task-icon fa-solid fa-circle-chevron-down'></i></span>
+//     })
+// }
 
 
 function eventListeners() {
