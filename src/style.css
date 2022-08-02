@@ -210,7 +210,7 @@ ul {
 }
 
 .task-wrapper {
-    height: 60px;
+    height: 80px;
     width: max(700px);
     display: flex;
     align-items: center;
@@ -232,7 +232,7 @@ ul {
 .task {
     color: #000;
     display: flex;
-    width: 100%;
+    width: 95%;
     height: 100%;
     justify-content: space-between;
     align-items: center;
@@ -244,6 +244,7 @@ ul {
     width: 100%;
     height: 100%;
     justify-content: center;
+    font-weight: bold;
 }
 
 #task-name {
@@ -290,20 +291,37 @@ ul {
     display: inline-block;
 }
 
-.task-wrapper.high {
+.task-wrapper.high, .task-description-wrapper.high {
     background-color: var(--red-light);
     border: 5px solid var(--red-dark);
 }
 
-.task-wrapper.medium {
+.task-wrapper.medium, .task-description-wrapper.medium {
     background-color: var(--yellow-light);
     border: 5px solid var(--yellow-dark);
 }
 
-.task-wrapper.low {
+.task-wrapper.low, .task-description-wrapper.low {
     background-color: var(--green-light);
     border: 5px solid var(--green-dark);
 }
+
+.task-description-wrapper.high, .task-description-wrapper.medium, .task-description-wrapper.low {
+    border-top: none;
+}
+
+.task-description.high {
+    border: 5px solid var(--red-dark);
+}
+
+.task-description.medium {
+    border: 5px solid var(--yellow-dark);
+}
+
+.task-description.low {
+    border: 5px solid var(--green-dark);
+}
+
 
 .task-icon.high {
     color: var(--red-dark);
@@ -320,21 +338,37 @@ ul {
 
 .task-description-wrapper {
     display: none;
+    flex-direction: column;
     margin-top: -5px;
-    /* display: flex; */
-    border: 5px solid black;
-    border-radius: 0 0 50px 50px;
-    border-top: none;
     width: max(700px);
-    height: min(60px);
+    height: min(200px);
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 25px 25px;
 }
 
 .task-description {
+    width: 95%;
+    height: 60%;
+    background-color: #fff;
     align-items: center;
     color: black;
     margin: 20px;
+    border-radius: 10px;
 }
 
+.edit-btn-wrapper {
+    height: 60px;
+    width: 100%;
+    background-color: violet;
+    margin-bottom: 0px;
+}
+
+.task-description-icon {
+    height: 60px;
+    margin-bottom: 0px;
+    width: 100%;
+}
 
 /* Form section */
 
