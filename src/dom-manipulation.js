@@ -63,7 +63,7 @@ function createTaskObject(x) {
     const taskDescription = document.createElement('div');
     taskDescription.classList.add('task-description');
     taskDescription.appendChild(createEditBtn());
-    taskDescription.innerHTML+= `${x.getDescription()}`;
+    taskDescription.innerHTML+= `<div class='task-description-text'>${x.getDescription()}</div>`;
     taskDescriptionWrapper.appendChild(taskDescription);
 
     // ${format(new Date(taskArray[i].getDate()), 'MM/dd/yyyy')}</div><
@@ -88,8 +88,6 @@ function createTaskObject(x) {
 //populate initial task list
 function populateTaskList() {
     window.addEventListener("load", () => {
-        //Circle(Completed) Name Description Date Priority Edit
-        // dayText.innerHTML += format(new Date(), 'eeee');
         for (let i = 0; i < taskArray.length; i++) {
             createTaskObject(taskArray[i]);
         }
@@ -141,10 +139,11 @@ function createEditBtn() {
 
     const editBtn = document.createElement('div');
     editBtn.classList.add('edit-btn');
-    editBtn.innerHTML = "<i id='empty-circle' class='task-icon fa-solid fa-circle'><i id='pencil' class='task-description-icon fa-solid fa-pencil'>";
+    editBtn.innerHTML = "<i id='empty-circle' class='task-icon fa-solid fa-circle'></i><i id='pencil' class='fa-solid fa-pencil'>";
     // editBtnWrapper.appendChild(editBtn)
     return editBtn;
 }
+
 
 
 function eventListeners() {
