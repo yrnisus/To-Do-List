@@ -338,6 +338,7 @@ ul {
 
 .task-description-wrapper {
     display: none;
+    position: relative;
     flex-direction: column;
     margin-top: -5px;
     width: max(700px);
@@ -357,17 +358,18 @@ ul {
     border-radius: 10px;
 }
 
-.edit-btn-wrapper {
-    height: 60px;
-    width: 100%;
-    background-color: violet;
-    margin-bottom: 0px;
-}
-
 .task-description-icon {
     height: 60px;
     margin-bottom: 0px;
     width: 100%;
+}
+
+.edit-btn {
+    position: absolute;
+    top: 0;
+    height: 60px;
+    background-color: #fff;
+    width: 95%;
 }
 
 /* Form section */

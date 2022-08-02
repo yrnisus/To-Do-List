@@ -58,10 +58,13 @@ function createTaskObject(x) {
     // Dropdown description
     const taskDescriptionWrapper = document.createElement('div');
     taskDescriptionWrapper.classList.add('task-description-wrapper')
-    taskDescriptionWrapper.appendChild(createEditBtn());
-    taskDescriptionWrapper.innerHTML+= `<div class="task-description">${x.getDescription()}</div>`
+    // taskDescriptionWrapper.innerHTML+= `<div class="task-description">${x.getDescription()}</div>`
 
-    
+    const taskDescription = document.createElement('div');
+    taskDescription.classList.add('task-description');
+    taskDescription.appendChild(createEditBtn());
+    taskDescription.innerHTML+= `${x.getDescription()}`;
+    taskDescriptionWrapper.appendChild(taskDescription);
 
     // ${format(new Date(taskArray[i].getDate()), 'MM/dd/yyyy')}</div><
     const tasksWrapper = document.createElement('div');
@@ -133,13 +136,14 @@ function toggleDescription(urgency, view, taskDescriptionWrapper) {
 }
 
 function createEditBtn() {
-    const editBtnWrapper = document.createElement('div');
-    editBtnWrapper.classList.add('edit-btn-wrapper');
+    // const editBtnWrapper = document.createElement('div');
+    // editBtnWrapper.classList.add('edit-btn-wrapper');
 
     const editBtn = document.createElement('div');
+    editBtn.classList.add('edit-btn');
     editBtn.innerHTML = "<i id='empty-circle' class='task-icon fa-solid fa-circle'><i id='pencil' class='task-description-icon fa-solid fa-pencil'>";
-    editBtnWrapper.appendChild(editBtn);
-    return editBtnWrapper;
+    // editBtnWrapper.appendChild(editBtn)
+    return editBtn;
 }
 
 
