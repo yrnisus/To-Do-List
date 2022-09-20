@@ -1,5 +1,6 @@
 import {Task} from './task.js'
 import {addTask} from './dom-manipulation.js'
+import {Storage} from './storage.js'
 
 function newTaskForm() {
     //creates the form to add a task
@@ -19,7 +20,9 @@ function getFormInputs(form) {
         //gets the user input from form and creates a new task
         const formData = new FormData(form);
         const formProps = Object.fromEntries(formData);
+        //need to create a new Task Object
         const newTask = new Task(formProps);
+        Storage.addTask(newTask);
         addTask(newTask);
         
         // clear the values of the form

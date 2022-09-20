@@ -1,9 +1,8 @@
+import { indexOf } from 'lodash';
 import {
     Project
 } from './project'
-import {
-    Task
-} from './task'
+
 
 //Save names of project as an array?
 let projectArray = [];
@@ -54,12 +53,12 @@ export class Storage {
 
     static removeProject(project) {
         projectArray.splice(projectArray.indexOf(project));
-        console.log(projectArray);
         this.setProjects();
     }
 
     // Tasks
 
+    
     static setTasks() {
         localStorage.setItem('tasks', JSON.stringify(taskArray));
     }
@@ -72,20 +71,24 @@ export class Storage {
     //theres an error. I have to create the local storage the first time and then it works every time afterwards
     // localStorage.setItem('tasks', JSON.stringify(taskArray));
 
-
     static createTaskList() {
-        taskArray = JSON.parse(localStorage.getItem("tasks"));
-        console.log(taskArray);
+        taskArray = JSON.parse(localStorage.getItem("tasks" || "[]"));
     }
 
     static addTask(task) {
+        //receives task object from form submission
         taskArray.push(task);
         this.setTasks();
     }
 
     static removeTask(task) {
-        taskArray.splice(taskArray.indexOf(task));
+        let taskName = task.taskName;
+        const index = taskArray.findIndex(object => {
+            return object.taskName === taskName;
+        })
+        taskArray.splice(index, 1);
         console.log(taskArray);
+        // taskArray.splice(taskArray.indexOf(task.taskName));
         this.setTasks();
     }
 
@@ -96,5 +99,3 @@ if (storageAvailable('localStorage')) {
     Storage.createProjectList();
     Storage.createTaskList();
   }
-
-console.log(projectArray);

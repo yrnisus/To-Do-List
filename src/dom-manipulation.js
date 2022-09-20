@@ -37,14 +37,16 @@ function createAddTaskBtn() {
 
 }
 
-function addTask(newTask) {
-    Storage.addTask(newTask);
-    setTasks();
+function setTasks() {
+    const taskArr = Storage.getTaskList();
+    taskArr.forEach((task) => {
+        addTask(task);
+    })
 }
 
-
-function createTaskObject(x) {
-    const urgency = x.getUrgency();
+function addTask(taskObj) {
+    //receives as object
+    const urgency = taskObj.urgency;
     //taskList is the container for every task
     const tasksList = document.getElementById('tasks-list');
     //taskContainer is an individual line, completion square with taskWrapper next to it
@@ -56,9 +58,11 @@ function createTaskObject(x) {
 
     const task = document.createElement('div');
     task.classList.add('task');
-    let date = cleanDate(x.getDate())
+    let date = cleanDate(taskObj.date)
     task.innerHTML = `<div class='task-left'><span class='x' id='completed-icon'><i class='task-icon fa-solid fa-circle-chevron-down'></i></span>
-    <div class='task-name-date-wrapper'><div id='task-name'>${x.getTaskName()}</div><div id='task-date'>${date}</div></div></div><div class='task-right'></i><i class='task-icon fa-solid fa-circle-check'></i><i class='task-icon fa-solid fa-circle-xmark'></i></div>`;
+    <div class='task-name-date-wrapper'><div id='task-name'>${taskObj.taskName}</div><div id='task-date'>${date}</div></div></div><div class='task-right'></i><i class='task-icon fa-solid fa-circle-check'></i><div id='task-remove-btn'><i class='task-icon fa-solid fa-circle-xmark'></i></div></div>`;
+
+    
 
     // Dropdown description
     const taskDescriptionWrapper = document.createElement('div');
@@ -68,20 +72,20 @@ function createTaskObject(x) {
     const taskDescription = document.createElement('div');
     taskDescription.classList.add('task-description');
     taskDescription.appendChild(createEditBtn(urgency));
-    taskDescription.innerHTML += `<div class='task-description-text'>${x.getDescription()}</div>`;
+    taskDescription.innerHTML += `<div class='task-description-text'>${taskObj.description}</div>`;
     taskDescriptionWrapper.appendChild(taskDescription);
 
     // ${format(new Date(taskArray[i].getDate()), 'MM/dd/yyyy')}</div><
     const tasksWrapper = document.createElement('div');
     tasksWrapper.classList.add('task-wrapper');
     tasksWrapper.appendChild(task);
-    // tasksWrapper.appendChild(taskDescriptionWrapper);
 
     //append the square to the container 
     // taskContainer.appendChild(completionSquare);
 
     //apend the taskWrapper to the container
     taskContainer.appendChild(tasksWrapper);
+    createRemoveTaskBtn(taskObj, taskContainer);
     //append the entire line to the tasksList
     tasksList.appendChild(taskContainer);
     tasksList.appendChild(taskDescriptionWrapper);
@@ -91,13 +95,20 @@ function createTaskObject(x) {
     // const icon = task.querySelector('#completed-icon');
     toggleDropdown(urgency, tasksWrapper, taskDescriptionWrapper);
 }
-//populate initial task list
-function populateTaskList() {
-    window.addEventListener("load", () => {
-        for (let i = 0; i < taskArray.length; i++) {
-            createTaskObject(taskArray[i]);
-        }
-    })
+
+function createRemoveTaskBtn(taskObj, taskContainer) {
+      //btn to remove a task
+        const taskRemoveBtn = taskContainer.querySelector('#task-remove-btn');
+        taskRemoveBtn.addEventListener('click', () => {
+            removeTask(taskObj, taskContainer);
+        })
+}
+
+//needs to send the object to Storage
+function removeTask(taskObj, taskContainer) {
+     //removes the div
+    taskContainer.remove();
+    Storage.removeTask(taskObj);
 }
 
 function cleanDate(date) {
@@ -149,11 +160,10 @@ function createEditBtn(urgency) {
     return editBtn;
 }
 
-
-
 function eventListeners() {
     window.addEventListener("load", () => {
         setProjects();
+        setTasks();
         // when add task button is clicked unhide the new task form
         const addTaskBtn = document.querySelector('.add-task-btn')
         const newTaskFormWrapper = document.querySelector('.new-task-form-wrapper');
@@ -162,7 +172,6 @@ function eventListeners() {
                 newTaskFormWrapper.classList.remove('hidden');
             addTaskBtn.classList.add("hidden");
         })
-
 
         //when either submit or cancel button is clicked hide the form show the add task button
         document.getElementById('cancel-btn').addEventListener("click", () => {
@@ -205,7 +214,6 @@ function eventListeners() {
     })
 }
 
-
 function addProject(project) {
     const newProject = document.createElement('li');
     toggleRemoveProjectBtn(newProject);
@@ -220,7 +228,6 @@ function addProject(project) {
     document.querySelector('.project-list').insertBefore(newProject, document.getElementById('project-add-wrapper'));
     hideProjectAddBtn();
 }
-
 
 function hideProjectAddBtn() {
     const projectForm = document.getElementById('newProject')
@@ -250,30 +257,22 @@ function toggleRemoveProjectBtn(project) {
     })
     project.addEventListener('mouseleave', () => {
         project.querySelector('.x').classList.add('hidden');
-     })
+    })
 }
 
-  function setProjects() {
+function setProjects() {
     const projectArr = Storage.projectList();
     projectArr.forEach((proj) => {
         addProject(proj);
     })
-  }
+}
 
-  function setTasks() {
-    const taskArr = Storage.getTaskList();
-    taskArr.forEach((task) => {
-        createTaskObject(task);
-    })
-  }
 
 function removeProject(project) {
-    console.log(project)
     project.remove();
     Storage.removeProject();
 }
 
-populateTaskList();
 eventListeners();
 export {
     createFormAndAddTaskWrapper,
