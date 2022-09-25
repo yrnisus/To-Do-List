@@ -7,6 +7,7 @@ import {
 //Save names of project as an array?
 let projectArray = [];
 let taskArray = [];
+let projectID = 0;
 
 function storageAvailable(type) {
     let storage;
@@ -34,26 +35,59 @@ function storageAvailable(type) {
 
 export class Storage {
 
+    static start(){
+        Storage.createProjectList();
+        Storage.createProjectID();
+        Storage.createTaskList();
+    }
+
     static setProjects() {
         localStorage.setItem('projects', JSON.stringify(projectArray));
      }
+
 
     static projectList() {
         return JSON.parse(localStorage.getItem("projects"));
     }
 
     static createProjectList() {
-        projectArray = JSON.parse(localStorage.getItem("projects"));
+        projectArray = JSON.parse(localStorage.getItem("projects" || "[]"));
     }
+
 
     static addProject(project) {
         projectArray.push(project);
         this.setProjects();
+        this.incrementProjectID();
     }
 
     static removeProject(project) {
         projectArray.splice(projectArray.indexOf(project));
         this.setProjects();
+    }
+
+    ///project ID
+    static setProjectID() {
+        localStorage.setItem('currentProjectID', projectID);
+    }
+
+    static createProjectID() {
+        if(localStorage.currentProjectID)
+            projectID = localStorage.getItem("currentProjectID" || "1");
+        else {
+            localStorage.setItem('currentProjectID', projectID)
+        }
+        console.log(projectID);
+        console.log("Here");
+    }
+
+    static incrementProjectID() {
+        projectID++;
+        this.setProjectID();
+    }
+
+    static getProjectID() {
+        projectID = localStorage.getItem("currentProjectID");
     }
 
     // Tasks
@@ -92,10 +126,13 @@ export class Storage {
         this.setTasks();
     }
 
+    static clearStorage() {
+        localStorage.clear();
+    }
+
 
 }
 
 if (storageAvailable('localStorage')) {
-    Storage.createProjectList();
-    Storage.createTaskList();
+    Storage.start();
   }

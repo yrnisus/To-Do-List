@@ -164,6 +164,7 @@ function eventListeners() {
     window.addEventListener("load", () => {
         setProjects();
         setTasks();
+        // setProjectID();
         // when add task button is clicked unhide the new task form
         const addTaskBtn = document.querySelector('.add-task-btn')
         const newTaskFormWrapper = document.querySelector('.new-task-form-wrapper');
@@ -267,6 +268,9 @@ function setProjects() {
     })
 }
 
+function setProjectID() {
+
+}
 
 function removeProject(project) {
     project.remove();

@@ -8,6 +8,7 @@ export class Task {
     date;
     urgency;
     completed;
+    projectID;
 
     // constructor(title, description, date, priority, completed) {
     //     this.#title = title;
@@ -29,4 +30,7 @@ export class Task {
         getDate = () => this.date;
         getUrgency = () => this.urgency;
         getCompleted = () => this.completed;
+        setProjectID(projectID) {
+            this.projectID = projectID;
+        }
 }

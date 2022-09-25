@@ -1,5 +1,6 @@
 export class Project {
     #projectName;
+    #projectID;
     constructor(project) {
         this.#projectName = project.projectName;
     }
