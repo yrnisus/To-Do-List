@@ -191,14 +191,15 @@ function eventListeners() {
 
         //checks input on submit
         projectForm.addEventListener('submit', function () {
-            //gets the user input from form and creates a new project
+            //gets the user input from form and creates a project object
             let formData = new FormData(projectForm);
             let formProps = Object.fromEntries(formData);
             let newProject = new Project(formProps);
+            console.log(newProject);
 
             //project object
-            Storage.addProject(newProject.getProjectName());
-            addProject(newProject.getProjectName());
+            Storage.addProject(newProject);
+            addProject(newProject);
         })
 
         const projectCancelBtn = document.getElementById('project-cancel-btn');
@@ -217,11 +218,13 @@ function eventListeners() {
 
 function addProject(project) {
     const newProject = document.createElement('li');
+    // setActiveProject(newProject)
     toggleRemoveProjectBtn(newProject);
     const newProjectIcon = document.createElement('i');
     newProjectIcon.classList.add("fa-solid", "fa-folder");
     newProject.appendChild(newProjectIcon);
-    newProject.innerHTML += project;
+    let projectName = capitalizeFirstLetter(project.projectName);
+    newProject.innerHTML +=  projectName + " " + project.projectID;
     // setProjects(project.getProjectName());
     const newProjectCloseIcon = removeProjectBtn(newProject);
 
@@ -268,14 +271,18 @@ function setProjects() {
     })
 }
 
-function setProjectID() {
-
-}
-
 function removeProject(project) {
     project.remove();
     Storage.removeProject();
 }
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  
+function setActiveProject() {
+
+  }
 
 eventListeners();
 export {

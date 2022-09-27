@@ -7,7 +7,9 @@ import {
 //Save names of project as an array?
 let projectArray = [];
 let taskArray = [];
-let projectID = 0;
+//0 is going to be us used for all tasks
+let projectID = 1;
+let activeProject = 0;
 
 function storageAvailable(type) {
     let storage;
@@ -39,6 +41,7 @@ export class Storage {
         Storage.createProjectList();
         Storage.createProjectID();
         Storage.createTaskList();
+        Storage.createActiveProject();
     }
 
     static setProjects() {
@@ -47,16 +50,24 @@ export class Storage {
 
 
     static projectList() {
+        let test = JSON.parse(localStorage.getItem("projects"));
         return JSON.parse(localStorage.getItem("projects"));
     }
 
     static createProjectList() {
-        projectArray = JSON.parse(localStorage.getItem("projects" || "[]"));
+        if(localStorage.projects)
+            projectArray = JSON.parse(localStorage.getItem("projects" || "[]"));
+        else {
+            localStorage.setItem('projects', JSON.stringify(projectArray));
+        }
+        // projectArray = JSON.parse(localStorage.getItem("projects" || "[]"));
     }
 
 
-    static addProject(project) {
-        projectArray.push(project);
+    static addProject(projectObj) {
+        projectObj.projectID = Storage.getProjectID();
+        projectArray.push(projectObj);
+        console.log(projectArray[projectArray.length-1])
         this.setProjects();
         this.incrementProjectID();
     }
@@ -73,12 +84,10 @@ export class Storage {
 
     static createProjectID() {
         if(localStorage.currentProjectID)
-            projectID = localStorage.getItem("currentProjectID" || "1");
+            projectID = localStorage.getItem("currentProjectID");
         else {
             localStorage.setItem('currentProjectID', projectID)
         }
-        console.log(projectID);
-        console.log("Here");
     }
 
     static incrementProjectID() {
@@ -87,12 +96,26 @@ export class Storage {
     }
 
     static getProjectID() {
-        projectID = localStorage.getItem("currentProjectID");
+        return localStorage.getItem("currentProjectID");
     }
+
+    //active project manipulation
+    static setActiveProject() {
+        localStorage.setItem('activeProjectLocalStorage', activeProject);
+    }
+
+    static createActiveProject() {
+        if(localStorage.activeProjectLocalStorage)
+            activeProject = localStorage.getItem("activeProjectLocalStorage");
+        else {
+            localStorage.setItem('activeProjectLocalStorage', activeProject);
+        }
+        console.log(activeProject);
+    }
+
 
     // Tasks
 
-    
     static setTasks() {
         localStorage.setItem('tasks', JSON.stringify(taskArray));
     }
@@ -101,12 +124,12 @@ export class Storage {
         return JSON.parse(localStorage.getItem("tasks"));
     }
 
-
-    //theres an error. I have to create the local storage the first time and then it works every time afterwards
-    // localStorage.setItem('tasks', JSON.stringify(taskArray));
-
     static createTaskList() {
+        if(localStorage.tasks)
         taskArray = JSON.parse(localStorage.getItem("tasks" || "[]"));
+    else {
+        localStorage.setItem('tasks', JSON.stringify(taskArray));
+    }
     }
 
     static addTask(task) {
@@ -121,8 +144,6 @@ export class Storage {
             return object.taskName === taskName;
         })
         taskArray.splice(index, 1);
-        console.log(taskArray);
-        // taskArray.splice(taskArray.indexOf(task.taskName));
         this.setTasks();
     }
 
@@ -134,5 +155,6 @@ export class Storage {
 }
 
 if (storageAvailable('localStorage')) {
+    // Storage.clearStorage();
     Storage.start();
   }

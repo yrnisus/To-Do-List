@@ -1,10 +1,13 @@
 export class Project {
-    #projectName;
-    #projectID;
+    projectName;
+    projectID;
     constructor(project) {
-        this.#projectName = project.projectName;
+        this.projectName = project.projectName;
     }
-    getProjectName = () => this.#projectName;
+    getProjectName = () => this.projectName;
+    setProjectID(projectID) {
+        this.projectID = projectID;
+    }
 }
 
 //A Project is just a list way to filter Tasks
