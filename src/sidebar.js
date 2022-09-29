@@ -44,6 +44,10 @@ function createTasksList() {
     for (let i = 0; i < tasksArray.length; i++) {
         let task = document.createElement('li');
         let icon = document.createElement('i');
+        if(i == 0)
+        {
+         task.id = "all-tasks"
+        }
         icon.classList.add("fa-solid", tasksIconArray[i]);
         task.appendChild(icon);
         task.innerHTML += tasksArray[i];

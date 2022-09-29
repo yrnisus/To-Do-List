@@ -56,7 +56,7 @@ export class Storage {
 
     static createProjectList() {
         if(localStorage.projects)
-            projectArray = JSON.parse(localStorage.getItem("projects" || "[]"));
+            projectArray = JSON.parse(localStorage.getItem("projects"));
         else {
             localStorage.setItem('projects', JSON.stringify(projectArray));
         }
@@ -100,19 +100,26 @@ export class Storage {
     }
 
     //active project manipulation
-    static setActiveProject() {
-        localStorage.setItem('activeProjectLocalStorage', activeProject);
-    }
-
-    static createActiveProject() {
-        if(localStorage.activeProjectLocalStorage)
-            activeProject = localStorage.getItem("activeProjectLocalStorage");
-        else {
-            localStorage.setItem('activeProjectLocalStorage', activeProject);
-        }
+    static setActiveProject(projectID) {
+        localStorage.setItem('activeProjectLocalStorage', projectID);
+        activeProject = projectID;
         console.log(activeProject);
     }
 
+    static createActiveProject() {
+        // if(localStorage.activeProjectLocalStorage)
+        //     activeProject = localStorage.getItem("activeProjectLocalStorage");
+        // else {
+        //     localStorage.setItem('activeProjectLocalStorage', activeProject);
+        // }
+        // console.log(activeProject);
+        //on page load always start with 0 as active project to show all tasks
+        localStorage.setItem('activeProjectLocalStorage', 0);
+    }
+
+    static getActiveProject() {
+        return localStorage.getItem("activeProjectLocalStorage");
+    }
 
     // Tasks
 
@@ -121,7 +128,13 @@ export class Storage {
     }
 
     static getTaskList() {
-        return JSON.parse(localStorage.getItem("tasks"));
+        let array = JSON.parse(localStorage.getItem("tasks"));
+        let result = array.filter(task => task.projectID == activeProject)
+        if(this.getActiveProject() == 0)
+            return array
+        else
+            return result;
+        // return JSON.parse(localStorage.getItem("tasks"));
     }
 
     static createTaskList() {

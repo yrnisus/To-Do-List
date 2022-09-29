@@ -22,7 +22,10 @@ function getFormInputs(form) {
         const formProps = Object.fromEntries(formData);
         //need to create a new Task Object
         const newTask = new Task(formProps);
-        newTask.setProjectID(Storage.getProjectID())
+        
+        // this needs to get active project 
+        // newTask.setProjectID(Storage.getProjectID())
+        newTask.setProjectID(Storage.getActiveProject())
         console.log(newTask.projectID);
         Storage.addTask(newTask);
         addTask(newTask);

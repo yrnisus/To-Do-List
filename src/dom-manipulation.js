@@ -39,6 +39,10 @@ function createAddTaskBtn() {
 
 function setTasks() {
     const taskArr = Storage.getTaskList();
+    const tasksList = document.getElementById('tasks-list');
+    while (tasksList.firstChild) {
+        tasksList.removeChild(tasksList.firstChild)
+      }
     taskArr.forEach((task) => {
         addTask(task);
     })
@@ -195,12 +199,18 @@ function eventListeners() {
             let formData = new FormData(projectForm);
             let formProps = Object.fromEntries(formData);
             let newProject = new Project(formProps);
-            console.log(newProject);
 
             //project object
             Storage.addProject(newProject);
             addProject(newProject);
         })
+
+        const allTasks = document.getElementById("all-tasks");
+        allTasks.addEventListener('click', () => {
+            Storage.setActiveProject(0);
+            setTasks();
+        })
+
 
         const projectCancelBtn = document.getElementById('project-cancel-btn');
         projectCancelBtn.addEventListener('click', () => {
@@ -218,7 +228,7 @@ function eventListeners() {
 
 function addProject(project) {
     const newProject = document.createElement('li');
-    // setActiveProject(newProject)
+    setActiveProject(newProject, project);
     toggleRemoveProjectBtn(newProject);
     const newProjectIcon = document.createElement('i');
     newProjectIcon.classList.add("fa-solid", "fa-folder");
@@ -280,9 +290,13 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
   
-function setActiveProject() {
-
+function setActiveProject(projectUI, projectObj) {
+    projectUI.addEventListener("click", () => {
+        Storage.setActiveProject(projectObj.projectID);
+        setTasks();
+    })
   }
+
 
 eventListeners();
 export {
