@@ -226,17 +226,17 @@ function eventListeners() {
     })
 }
 
-function addProject(project) {
+function addProject(projectObj) {
     const newProject = document.createElement('li');
-    setActiveProject(newProject, project);
+    setActiveProject(newProject, projectObj);
     toggleRemoveProjectBtn(newProject);
     const newProjectIcon = document.createElement('i');
     newProjectIcon.classList.add("fa-solid", "fa-folder");
     newProject.appendChild(newProjectIcon);
-    let projectName = capitalizeFirstLetter(project.projectName);
-    newProject.innerHTML +=  projectName + " " + project.projectID;
+    let projectName = capitalizeFirstLetter(projectObj.projectName);
+    newProject.innerHTML +=  projectName + " " + projectObj.projectID;
     // setProjects(project.getProjectName());
-    const newProjectCloseIcon = removeProjectBtn(newProject);
+    const newProjectCloseIcon = removeProjectBtn(newProject, projectObj);
 
     newProject.appendChild(newProjectCloseIcon);
     document.querySelector('.project-list').insertBefore(newProject, document.getElementById('project-add-wrapper'));
@@ -250,12 +250,13 @@ function hideProjectAddBtn() {
     document.getElementById('projectName').value = "";
 }
 
-function removeProjectBtn(project) {
+function removeProjectBtn(projectUI, projectObj) {
+    //project is projectUI
     //create an invisible button to handle click events
     const hiddenBtn = document.createElement('button');
     hiddenBtn.classList.add('close-mark', 'hidden-btn');
     hiddenBtn.addEventListener('click', () => {
-        removeProject(project);
+        removeProject(projectUI, projectObj);
     })
 
     //put an svg X inside the hidden button
@@ -281,9 +282,11 @@ function setProjects() {
     })
 }
 
-function removeProject(project) {
-    project.remove();
-    Storage.removeProject();
+function removeProject(projectUI, projectObj) {
+    projectUI.remove();
+    //how does this work with no arg?
+    console.log(projectObj);
+    Storage.removeProject(projectObj);
 }
 
 function capitalizeFirstLetter(string) {

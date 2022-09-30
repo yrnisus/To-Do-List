@@ -72,10 +72,23 @@ export class Storage {
         this.incrementProjectID();
     }
 
-    static removeProject(project) {
-        projectArray.splice(projectArray.indexOf(project));
+    static removeProject(projectObj) {
+        let removeID = projectObj.projectID;
+        console.log(removeID);
+        //project is the projectID of the project
+        projectArray.splice(projectArray.indexOf(removeID));
+        //go through task array and remove all tasks with same project
+        this.removeProjectTasks(removeID);
         this.setProjects();
+        this.setTasks();
+        this.setActiveProject(0);
+        this.getTaskList();
     }
+
+    static removeProjectTasks(removeID) {
+        let array = JSON.parse(localStorage.getItem("tasks"));
+        taskArray = array.filter(task => task.projectID != removeID);
+     }
 
     ///project ID
     static setProjectID() {
@@ -103,16 +116,9 @@ export class Storage {
     static setActiveProject(projectID) {
         localStorage.setItem('activeProjectLocalStorage', projectID);
         activeProject = projectID;
-        console.log(activeProject);
     }
 
     static createActiveProject() {
-        // if(localStorage.activeProjectLocalStorage)
-        //     activeProject = localStorage.getItem("activeProjectLocalStorage");
-        // else {
-        //     localStorage.setItem('activeProjectLocalStorage', activeProject);
-        // }
-        // console.log(activeProject);
         //on page load always start with 0 as active project to show all tasks
         localStorage.setItem('activeProjectLocalStorage', 0);
     }
