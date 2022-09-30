@@ -207,6 +207,7 @@ function eventListeners() {
 
         const allTasks = document.getElementById("all-tasks");
         allTasks.addEventListener('click', () => {
+            changeTabName("All Tasks");
             Storage.setActiveProject(0);
             setTasks();
         })
@@ -295,11 +296,18 @@ function capitalizeFirstLetter(string) {
   
 function setActiveProject(projectUI, projectObj) {
     projectUI.addEventListener("click", () => {
+        //Changes the Name of the Tab
+        changeTabName(projectObj.projectName);
         Storage.setActiveProject(projectObj.projectID);
         setTasks();
     })
   }
 
+function changeTabName(tabName) {
+    //content-title
+    let title = document.querySelector('.title');
+    title.textContent = capitalizeFirstLetter(tabName);
+}
 
 eventListeners();
 export {

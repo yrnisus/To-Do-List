@@ -34,9 +34,15 @@ function createContentHeading() {
     const contentHeadingWrapper = document.createElement('div');
     contentHeadingWrapper.classList.add('content-heading-wrapper');
 
-    const contentTitle = document.createElement('div');
+    let contentTitle = document.createElement('div');
     contentTitle.classList.add('content-title');
-    contentTitle.textContent = "Today";
+    // contentTitle.textContent = "Today";
+
+    let title = document.createElement('div');
+    title.classList.add('title');
+    title.textContent = "All Tasks";
+    contentTitle.appendChild(title);
+
 
     const dateWrapper = document.createElement('div');
     dateWrapper.classList.add('date-wrapper');
