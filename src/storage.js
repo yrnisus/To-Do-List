@@ -16,6 +16,7 @@ let taskArray = [];
 //1 is going to be used for dates
 let projectID = 2;
 let activeProject = 0;
+let activeDate = "";
 
 function storageAvailable(type) {
     let storage;
@@ -73,7 +74,6 @@ export class Storage {
     static addProject(projectObj) {
         projectObj.projectID = Storage.getProjectID();
         projectArray.push(projectObj);
-        console.log(projectArray[projectArray.length - 1])
         this.setProjects();
         this.incrementProjectID();
     }
@@ -143,6 +143,8 @@ export class Storage {
         let result = array.filter(task => task.projectID == activeProject)
         if (this.getActiveProject() == 0)
             return array
+        else if(this.getActiveProject() == 1)
+            return this.getTasksByDate(array)
         else
             return result;
         // return JSON.parse(localStorage.getItem("tasks"));
@@ -171,11 +173,28 @@ export class Storage {
         this.setTasks();
     }
 
-    static getTasksByDate(dateString) {
-        let array = JSON.parse(localStorage.getItem("tasks"));
+    static createActiveDate() {
+        if (localStorage.tasks)
+            activeDate = JSON.parse(localStorage.getItem("activeDateLocalStorage"));
+        else {
+            localStorage.setItem('activeDateLocalStorage', JSON.stringify(activeDate));
+        }
+    }
+
+    static setActiveDate(dateString) {
+        localStorage.setItem("activeDateLocalStorage", dateString);
+    }
+
+    static getActiveDate() {
+        return localStorage.getItem("activeDateLocalStorage");
+    }
+
+    //receives taskList array
+    static getTasksByDate(array) {
         let result = '';
         //receive target date as string (today, week, month)
         //create a target date based on the string received
+        let dateString = this.getActiveDate();
         let targetDate;
         if (dateString == 'today') {
             //sets a new date to todays date checks the task date to see if its the same
@@ -196,20 +215,11 @@ export class Storage {
         if (dateString == 'month')
         result = array.filter(task => {
             targetDate = new Date();
-            console.log(targetDate);
             let taskDate = new Date(task.date);
             return targetDate.getUTCMonth() == taskDate.getUTCMonth() && targetDate.getUTCFullYear() == taskDate.getUTCFullYear()
         })
         return result;
     }
-
-    // let date = new Date(taskDate);
-    // date = new Date(
-    //     date.getUTCFullYear(),
-    //     date.getUTCMonth(),
-    //     date.getUTCDate());
-
-
 
 
     static clearStorage() {

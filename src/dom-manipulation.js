@@ -222,8 +222,9 @@ function eventListeners() {
         todayBtn.addEventListener('click', () => {
             changeTabName("Today");
             //display an array with the tasks by date
-            setTasks(Storage.getTasksByDate('today'));
-            Storage.setActiveProject(0);
+            Storage.setActiveDate('today')
+            Storage.setActiveProject(1);
+            setTasks(Storage.getTaskList());
             // setTasks();
         })
 
@@ -231,8 +232,9 @@ function eventListeners() {
         weekBtn.addEventListener('click', () => {
             changeTabName("This Week");
             //display an array with the tasks by date
-            setTasks(Storage.getTasksByDate('week'));
-            Storage.setActiveProject(0);
+            Storage.setActiveDate('week')
+            Storage.setActiveProject(1);
+            setTasks(Storage.getTaskList());
             // setTasks();
         })
 
@@ -240,8 +242,9 @@ function eventListeners() {
         monthBtn.addEventListener('click', () => {
             changeTabName("This Month");
             //display an array with the tasks by date
-            setTasks(Storage.getTasksByDate('month'));
-            Storage.setActiveProject(0);
+            Storage.setActiveDate('month')
+            Storage.setActiveProject(1);
+            setTasks(Storage.getTaskList());
             // setTasks();
         })
 
@@ -352,5 +355,5 @@ function changeTabName(tabName) {
 eventListeners();
 export {
     createFormAndAddTaskWrapper,
-    addTask
+    setTasks
 };

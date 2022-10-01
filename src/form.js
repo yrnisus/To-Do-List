@@ -2,7 +2,7 @@ import {
     Task
 } from './task.js'
 import {
-    addTask
+    setTasks
 } from './dom-manipulation.js'
 import {
     Storage
@@ -40,6 +40,7 @@ function getFormInputs(form) {
         // newTask.setProjectID(Storage.getProjectID())
         newTask.setProjectID(Storage.getActiveProject())
         Storage.addTask(newTask);
+        setTasks(Storage.getTaskList());
         // addTask(newTask);
 
         // clear the values of the form
