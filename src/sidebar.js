@@ -33,15 +33,15 @@ function createTasksHeading() {
 }
 
 function createTasksList() {
-    const tasksIconArray = ["fa-list", "fa-calendar-day", "fa-calendar-week", "fa-calendar-days"];
-    const tasksArray = ["All tasks", "Today", "This week", "This month"];
+    const tasksIconArray = ["fa-list", "fa-list-check", "fa-calendar-day", "fa-calendar-week", "fa-calendar-days"];
+    const tasksArray = ["All tasks", "Completed tasks", "Today", "This week", "This month"];
 
 
     // creates the task ul and appends every default task
     const taskList = document.createElement('ul');
     taskList.classList.add('sidebar-content');
 
-    const taskBtnArray = ['all-tasks', 'today-btn', 'week-btn', 'month-btn']
+    const taskBtnArray = ['all-tasks', 'completed-tasks', 'today-btn', 'week-btn', 'month-btn']
 
     for (let i = 0; i < tasksArray.length; i++) {
         let task = document.createElement('li');

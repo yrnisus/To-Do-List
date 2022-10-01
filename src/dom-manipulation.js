@@ -68,7 +68,7 @@ function addTask(taskObj) {
     task.classList.add('task');
     let date = cleanDate(taskObj.date)
     task.innerHTML = `<div class='task-left'><span class='x' id='completed-icon'><i class='task-icon fa-solid fa-circle-chevron-down'></i></span>
-    <div class='task-name-date-wrapper'><div id='task-name'>${taskObj.taskName}</div><div id='task-date'>${date}</div></div></div><div class='task-right'><div id='task-completion-btn'><i class='task-icon fa-solid fa-circle-check'></i></div><div id='task-remove-btn'><i class='task-icon fa-solid fa-circle-xmark'></i></div></div>`;
+    <div class='task-name-date-wrapper'><div id='task-name'>${taskObj.taskName}</div><div id='task-date'>${date}</div></div></div><div class='task-right'><div id='task-completion-btn'><i class='task-icon fa-solid fa-circle-check'></i></div><div class='task-icon' id='task-remove-btn'><i class='fa-solid fa-trash'></i></div></div>`;
 
 
 
@@ -256,6 +256,16 @@ function eventListeners() {
             //testing getting the task list so I can reuse the function for dates
             setTasks(Storage.getTaskList());
         })
+
+        const completedTasks = document.getElementById('completed-tasks');
+        completedTasks.addEventListener('click', () => {
+            changeTabName("Completed Tasks");
+            Storage.setActiveProject(0);
+            // setTasks();
+            //testing getting the task list so I can reuse the function for dates
+            setTasks(Storage.getCompletedTaskList());
+        })
+
 
         //Date Tabs
         const todayBtn = document.getElementById('today-btn');

@@ -257,6 +257,7 @@ ul {
 }
 
 
+
 /* #completion-square {
     position: absolute;
     left: 0;
@@ -333,6 +334,37 @@ ul {
     background-color: #fff;
     border-radius: 50%;
 }
+
+.fa-trash {
+    font-size: 25px;
+    color: #fff;
+}
+
+#task-remove-btn {
+    width: 45px;
+    height: 45px;
+    margin: 0 5px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#task-remove-btn.high {
+    background-color: var(--red-dark);
+}
+
+#task-remove-btn.medium {
+    background-color: var(--yellow-dark);
+}
+
+#task-remove-btn.low {
+    background-color: var(--green-dark);
+}
+
+
 
 #completed-icon {
     display: inline-block;

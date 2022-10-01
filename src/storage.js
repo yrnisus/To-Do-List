@@ -181,6 +181,14 @@ export class Storage {
         // return JSON.parse(localStorage.getItem("tasks"));
     }
 
+    static getCompletedTaskList() {
+        let array = JSON.parse(localStorage.getItem("tasks"));
+        let result = array.filter(task => task.completed == true)
+        return result;
+        // return JSON.parse(localStorage.getItem("tasks"));
+    }
+
+
     static createTaskList() {
         if (localStorage.tasks)
             taskArray = JSON.parse(localStorage.getItem("tasks" || "[]"));
