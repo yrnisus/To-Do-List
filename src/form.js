@@ -38,7 +38,9 @@ function getFormInputs(form) {
         newTask.date = fixDate(newTask.date);
         // this needs to get active project 
         // newTask.setProjectID(Storage.getProjectID())
-        newTask.setProjectID(Storage.getActiveProject())
+        newTask.setProjectID(Storage.getActiveProject());
+        newTask.setTaskID(Storage.getTaskID());
+        console.log(newTask.taskID);
         Storage.addTask(newTask);
         setTasks(Storage.getTaskList());
         // addTask(newTask);
@@ -61,7 +63,6 @@ function fixDate(taskDate) {
         date.getUTCFullYear(),
         date.getUTCMonth(),
         date.getUTCDate());
-    console.log('Fix Date ' + date);
     return date;
     // this needs to get active proj
 }

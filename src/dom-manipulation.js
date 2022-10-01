@@ -43,7 +43,7 @@ function setTasks(taskArray) {
     const tasksList = document.getElementById('tasks-list');
     while (tasksList.firstChild) {
         tasksList.removeChild(tasksList.firstChild)
-      }
+    }
     taskArray.forEach((task) => {
         addTask(task);
     })
@@ -51,6 +51,9 @@ function setTasks(taskArray) {
 
 function addTask(taskObj) {
     //receives as object
+
+
+
     const urgency = taskObj.urgency;
     //taskList is the container for every task
     const tasksList = document.getElementById('tasks-list');
@@ -65,9 +68,9 @@ function addTask(taskObj) {
     task.classList.add('task');
     let date = cleanDate(taskObj.date)
     task.innerHTML = `<div class='task-left'><span class='x' id='completed-icon'><i class='task-icon fa-solid fa-circle-chevron-down'></i></span>
-    <div class='task-name-date-wrapper'><div id='task-name'>${taskObj.taskName}</div><div id='task-date'>${date}</div></div></div><div class='task-right'></i><i class='task-icon fa-solid fa-circle-check'></i><div id='task-remove-btn'><i class='task-icon fa-solid fa-circle-xmark'></i></div></div>`;
+    <div class='task-name-date-wrapper'><div id='task-name'>${taskObj.taskName}</div><div id='task-date'>${date}</div></div></div><div class='task-right'><div id='task-completion-btn'><i class='task-icon fa-solid fa-circle-check'></i></div><div id='task-remove-btn'><i class='task-icon fa-solid fa-circle-xmark'></i></div></div>`;
 
-    
+
 
     // Dropdown description
     const taskDescriptionWrapper = document.createElement('div');
@@ -91,6 +94,14 @@ function addTask(taskObj) {
     //apend the taskWrapper to the container
     taskContainer.appendChild(tasksWrapper);
     createRemoveTaskBtn(taskObj, taskContainer);
+    createCompletionBtn(taskObj, taskContainer);
+    if(Storage.getCompletion(taskObj)) {
+        const taskName = taskContainer.querySelector('#task-name')
+        taskName.classList.add('strike');
+        taskContainer.classList.add('complete');
+    }
+    console.log(Storage.getCompletion(taskObj));
+    // toggleComplete()
     //append the entire line to the tasksList
     tasksList.appendChild(taskContainer);
     tasksList.appendChild(taskDescriptionWrapper);
@@ -101,17 +112,46 @@ function addTask(taskObj) {
     toggleDropdown(urgency, tasksWrapper, taskDescriptionWrapper);
 }
 
+function createCompletionBtn(taskObj, taskContainer) {
+    const taskCompletionBtn = taskContainer.querySelector('#task-completion-btn');
+    taskCompletionBtn.addEventListener('click', () => {
+        toggleComplete(taskObj, taskContainer);
+    })
+}
+
+function toggleComplete(taskObj, taskContainer) {
+    const taskName = taskContainer.querySelector('#task-name')
+    console.log(Storage.getCompletion(taskObj));
+    if (!Storage.getCompletion(taskObj)) {
+        taskName.classList.add('strike');
+        taskContainer.classList.add('complete');
+        Storage.setCompletion(taskObj, true);
+        // console.log("true");
+    } else {
+        taskName.classList.remove('strike');
+        taskContainer.classList.remove('complete');
+        // console.log("false");
+        Storage.setCompletion(taskObj, false);
+    }
+}
+
+function markComplete() {
+        taskName.classList.add('strike');
+        taskContainer.classList.add('complete');
+}
+
+
 function createRemoveTaskBtn(taskObj, taskContainer) {
-      //btn to remove a task
-        const taskRemoveBtn = taskContainer.querySelector('#task-remove-btn');
-        taskRemoveBtn.addEventListener('click', () => {
-            removeTask(taskObj, taskContainer);
-        })
+    //btn to remove a task
+    const taskRemoveBtn = taskContainer.querySelector('#task-remove-btn');
+    taskRemoveBtn.addEventListener('click', () => {
+        removeTask(taskObj, taskContainer);
+    })
 }
 
 //needs to send the object to Storage
 function removeTask(taskObj, taskContainer) {
-     //removes the div
+    //removes the div
     taskContainer.remove();
     Storage.removeTask(taskObj);
 }
@@ -250,9 +290,6 @@ function eventListeners() {
 
 
 
-
-
-
         const projectCancelBtn = document.getElementById('project-cancel-btn');
         projectCancelBtn.addEventListener('click', () => {
             hideProjectAddBtn();
@@ -275,7 +312,7 @@ function addProject(projectObj) {
     newProjectIcon.classList.add("fa-solid", "fa-folder");
     newProject.appendChild(newProjectIcon);
     let projectName = capitalizeFirstLetter(projectObj.projectName);
-    newProject.innerHTML +=  projectName;
+    newProject.innerHTML += projectName;
     // setProjects(project.getProjectName());
     const newProjectCloseIcon = removeProjectBtn(newProject, projectObj);
 
@@ -298,6 +335,12 @@ function removeProjectBtn(projectUI, projectObj) {
     hiddenBtn.classList.add('close-mark', 'hidden-btn');
     hiddenBtn.addEventListener('click', () => {
         removeProject(projectUI, projectObj);
+
+        //not working
+        // changeTabName("All Tasks");
+        // Storage.setActiveProject(0);
+        // setTasks(Storage.getTaskList());
+        // console.log("Here")
     })
 
     //put an svg X inside the hidden button
@@ -330,8 +373,8 @@ function removeProject(projectUI, projectObj) {
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-  
+}
+
 function setActiveProject(projectUI, projectObj) {
     projectUI.addEventListener("click", () => {
         //Changes the Name of the Tab
@@ -340,15 +383,13 @@ function setActiveProject(projectUI, projectObj) {
         //setTasks();
         setTasks(Storage.getTaskList());
     })
-  }
+}
 
 function changeTabName(tabName) {
     //content-title
     let title = document.querySelector('.title');
     title.textContent = capitalizeFirstLetter(tabName);
 }
-
-// Date Tabs
 
 
 

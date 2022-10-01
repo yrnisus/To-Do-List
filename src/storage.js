@@ -15,8 +15,10 @@ let taskArray = [];
 //0 is going to be used for all tasks
 //1 is going to be used for dates
 let projectID = 2;
+let taskID = 0;
 let activeProject = 0;
 let activeDate = "";
+
 
 function storageAvailable(type) {
     let storage;
@@ -49,6 +51,8 @@ export class Storage {
         Storage.createProjectID();
         Storage.createTaskList();
         Storage.createActiveProject();
+        Storage.createActiveDate();
+        Storage.createTaskID();
     }
 
     static setProjects() {
@@ -57,7 +61,6 @@ export class Storage {
 
 
     static projectList() {
-        let test = JSON.parse(localStorage.getItem("projects"));
         return JSON.parse(localStorage.getItem("projects"));
     }
 
@@ -87,7 +90,6 @@ export class Storage {
         this.setProjects();
         this.setTasks();
         this.setActiveProject(0);
-        this.getTaskList();
     }
 
     static removeProjectTasks(removeID) {
@@ -134,8 +136,37 @@ export class Storage {
 
     // Tasks
 
+    static createTaskID() {
+        if (localStorage.currentTaskID)
+            projectID = localStorage.getItem("currentTaskID");
+        else {
+            localStorage.setItem('currentTaskID', taskID)
+        }
+    }
+
+    static getTaskID() {
+        return localStorage.getItem("currentTaskID");
+    }
+
+    static incrementTaskID() {
+        taskID++;
+        this.setTaskID();
+    }
+
+    static setTaskID() {
+        localStorage.setItem('currentTaskID', taskID);
+    }
+
     static setTasks() {
         localStorage.setItem('tasks', JSON.stringify(taskArray));
+    }
+
+    //receives a task object and returns the index of the task in the taskArray 
+    static getTaskIndex(taskObj) {
+        const taskIndex = taskArray.findIndex(object => {
+            return object.taskID === taskObj.taskID;
+        })
+        return taskIndex
     }
 
     static getTaskList() {
@@ -160,21 +191,36 @@ export class Storage {
 
     static addTask(task) {
         //receives task object from form submission
+        task.taskID = Storage.getTaskID();
         taskArray.push(task);
         this.setTasks();
+        this.incrementTaskID();
     }
 
     static removeTask(task) {
-        let taskName = task.taskName;
-        const index = taskArray.findIndex(object => {
-            return object.taskName === taskName;
-        })
+        const index = this.getTaskIndex(task);
         taskArray.splice(index, 1);
         this.setTasks();
     }
 
+    static getCompletion(taskObj) {
+        //receive index of task
+        let taskIndex = this.getTaskIndex(taskObj);
+        return taskArray[taskIndex].completed;
+    }
+
+    static setCompletion(taskObj, status) {
+        //receive index of task
+        let taskIndex = this.getTaskIndex(taskObj);
+        // console.log('Task ' + taskArray[taskIndex])
+        // console.log(taskIndex);
+        taskArray[taskIndex].completed = status;
+        this.setTasks();
+    }
+
+
     static createActiveDate() {
-        if (localStorage.tasks)
+        if (localStorage.activeDate)
             activeDate = JSON.parse(localStorage.getItem("activeDateLocalStorage"));
         else {
             localStorage.setItem('activeDateLocalStorage', JSON.stringify(activeDate));

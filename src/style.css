@@ -246,6 +246,16 @@ ul {
     position: relative;
 }
 
+.strike {
+    text-decoration: line-through;
+}
+
+.complete {
+    filter: gray; /* IE6-9 */
+    -webkit-filter: grayscale(.75); /* Google Chrome, Safari 6+ & Opera 15+ */
+    filter: grayscale(.75); /* Microsoft Edge and Firefox 35+ */
+}
+
 
 /* #completion-square {
     position: absolute;
