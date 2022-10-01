@@ -227,6 +227,7 @@ ul {
     flex-direction: column;
     font-size: 18px;
     color: #999999;
+    margin-left: auto;
 }
 
 .tasks-list {

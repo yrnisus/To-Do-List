@@ -3,7 +3,7 @@
 Things to fix:
     Test overflows the box
     Clear Fields on submit
-    Projects
+    On Check strikethrough text and alter the color to make it clear it has been completed
 
 
 

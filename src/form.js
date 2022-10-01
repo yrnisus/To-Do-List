@@ -40,7 +40,7 @@ function getFormInputs(form) {
         // newTask.setProjectID(Storage.getProjectID())
         newTask.setProjectID(Storage.getActiveProject())
         Storage.addTask(newTask);
-        addTask(newTask);
+        // addTask(newTask);
 
         // clear the values of the form
 

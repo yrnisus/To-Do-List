@@ -37,14 +37,14 @@ function createAddTaskBtn() {
 
 }
 
-function setTasks() {
+function setTasks(taskArray) {
     //gets the array of tasks from storage then displays them in the task list
-    const taskArr = Storage.getTaskList();
+    // const taskArr = Storage.getTaskList();
     const tasksList = document.getElementById('tasks-list');
     while (tasksList.firstChild) {
         tasksList.removeChild(tasksList.firstChild)
       }
-    taskArr.forEach((task) => {
+    taskArray.forEach((task) => {
         addTask(task);
     })
 }
@@ -169,7 +169,8 @@ function createEditBtn(urgency) {
 function eventListeners() {
     window.addEventListener("load", () => {
         setProjects();
-        setTasks();
+        // setTasks();
+        setTasks(Storage.getTaskList());
         // setProjectID();
         // when add task button is clicked unhide the new task form
         const addTaskBtn = document.querySelector('.add-task-btn')
@@ -211,7 +212,9 @@ function eventListeners() {
         allTasks.addEventListener('click', () => {
             changeTabName("All Tasks");
             Storage.setActiveProject(0);
-            setTasks();
+            // setTasks();
+            //testing getting the task list so I can reuse the function for dates
+            setTasks(Storage.getTaskList());
         })
 
         //Date Tabs
@@ -219,14 +222,32 @@ function eventListeners() {
         todayBtn.addEventListener('click', () => {
             changeTabName("Today");
             //display an array with the tasks by date
-            Storage.getTasksByDate('today')
-            // Storage.setActiveProject(0);
+            setTasks(Storage.getTasksByDate('today'));
+            Storage.setActiveProject(0);
             // setTasks();
         })
 
         const weekBtn = document.getElementById('week-btn');
+        weekBtn.addEventListener('click', () => {
+            changeTabName("This Week");
+            //display an array with the tasks by date
+            setTasks(Storage.getTasksByDate('week'));
+            Storage.setActiveProject(0);
+            // setTasks();
+        })
 
         const monthBtn = document.getElementById('month-btn');
+        monthBtn.addEventListener('click', () => {
+            changeTabName("This Month");
+            //display an array with the tasks by date
+            setTasks(Storage.getTasksByDate('month'));
+            Storage.setActiveProject(0);
+            // setTasks();
+        })
+
+
+
+
 
 
         const projectCancelBtn = document.getElementById('project-cancel-btn');
@@ -251,7 +272,7 @@ function addProject(projectObj) {
     newProjectIcon.classList.add("fa-solid", "fa-folder");
     newProject.appendChild(newProjectIcon);
     let projectName = capitalizeFirstLetter(projectObj.projectName);
-    newProject.innerHTML +=  projectName + " " + projectObj.projectID;
+    newProject.innerHTML +=  projectName;
     // setProjects(project.getProjectName());
     const newProjectCloseIcon = removeProjectBtn(newProject, projectObj);
 
@@ -313,7 +334,8 @@ function setActiveProject(projectUI, projectObj) {
         //Changes the Name of the Tab
         changeTabName(projectObj.projectName);
         Storage.setActiveProject(projectObj.projectID);
-        setTasks();
+        //setTasks();
+        setTasks(Storage.getTaskList());
     })
   }
 

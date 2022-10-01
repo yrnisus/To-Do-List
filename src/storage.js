@@ -1,14 +1,20 @@
-import { indexOf } from 'lodash';
+import {
+    indexOf
+} from 'lodash';
 import {
     Project
 } from './project'
-import {isToday} from 'date-fns'
+import {
+    isToday,
+    add
+} from 'date-fns'
 
 //Save names of project as an array?
 let projectArray = [];
 let taskArray = [];
-//0 is going to be us used for all tasks
-let projectID = 1;
+//0 is going to be used for all tasks
+//1 is going to be used for dates
+let projectID = 2;
 let activeProject = 0;
 
 function storageAvailable(type) {
@@ -37,7 +43,7 @@ function storageAvailable(type) {
 
 export class Storage {
 
-    static start(){
+    static start() {
         Storage.createProjectList();
         Storage.createProjectID();
         Storage.createTaskList();
@@ -46,7 +52,7 @@ export class Storage {
 
     static setProjects() {
         localStorage.setItem('projects', JSON.stringify(projectArray));
-     }
+    }
 
 
     static projectList() {
@@ -55,7 +61,7 @@ export class Storage {
     }
 
     static createProjectList() {
-        if(localStorage.projects)
+        if (localStorage.projects)
             projectArray = JSON.parse(localStorage.getItem("projects"));
         else {
             localStorage.setItem('projects', JSON.stringify(projectArray));
@@ -67,14 +73,13 @@ export class Storage {
     static addProject(projectObj) {
         projectObj.projectID = Storage.getProjectID();
         projectArray.push(projectObj);
-        console.log(projectArray[projectArray.length-1])
+        console.log(projectArray[projectArray.length - 1])
         this.setProjects();
         this.incrementProjectID();
     }
 
     static removeProject(projectObj) {
         let removeID = projectObj.projectID;
-        console.log(removeID);
         //project is the projectID of the project
         projectArray.splice(projectArray.indexOf(removeID));
         //go through task array and remove all tasks with same project
@@ -88,7 +93,7 @@ export class Storage {
     static removeProjectTasks(removeID) {
         let array = JSON.parse(localStorage.getItem("tasks"));
         taskArray = array.filter(task => task.projectID != removeID);
-     }
+    }
 
     ///project ID
     static setProjectID() {
@@ -96,7 +101,7 @@ export class Storage {
     }
 
     static createProjectID() {
-        if(localStorage.currentProjectID)
+        if (localStorage.currentProjectID)
             projectID = localStorage.getItem("currentProjectID");
         else {
             localStorage.setItem('currentProjectID', projectID)
@@ -136,7 +141,7 @@ export class Storage {
     static getTaskList() {
         let array = JSON.parse(localStorage.getItem("tasks"));
         let result = array.filter(task => task.projectID == activeProject)
-        if(this.getActiveProject() == 0)
+        if (this.getActiveProject() == 0)
             return array
         else
             return result;
@@ -144,11 +149,11 @@ export class Storage {
     }
 
     static createTaskList() {
-        if(localStorage.tasks)
-        taskArray = JSON.parse(localStorage.getItem("tasks" || "[]"));
-    else {
-        localStorage.setItem('tasks', JSON.stringify(taskArray));
-    }
+        if (localStorage.tasks)
+            taskArray = JSON.parse(localStorage.getItem("tasks" || "[]"));
+        else {
+            localStorage.setItem('tasks', JSON.stringify(taskArray));
+        }
     }
 
     static addTask(task) {
@@ -167,22 +172,45 @@ export class Storage {
     }
 
     static getTasksByDate(dateString) {
-        let result = "";
         let array = JSON.parse(localStorage.getItem("tasks"));
-        let today = new Date();
-        if(dateString == 'today') {
-             result = array.filter(task => {
-                //task.date is a string not a date
+        let result = '';
+        //receive target date as string (today, week, month)
+        //create a target date based on the string received
+        let targetDate;
+        if (dateString == 'today') {
+            //sets a new date to todays date checks the task date to see if its the same
+            result = array.filter(task => {
+                targetDate = new Date();
                 let taskDate = new Date(task.date);
-                console.log(taskDate);
-                return today.getDate() == taskDate.getDate() 
-             })
-            }
-        console.log(result);
-
-
-        // dayDate.innerHTML += format(new Date(), 'MM/dd');
+                return targetDate.getUTCDate() == taskDate.getUTCDate()
+            })
+        }
+        if (dateString == 'week') {
+            //sets a new date for one week from current date
+            result = array.filter(task => {
+                targetDate = add(new Date(), {weeks: 1})
+                let taskDate = new Date(task.date);
+                return targetDate.getUTCDate() - taskDate.getUTCDate() > 0 && targetDate.getUTCMonth() == taskDate.getUTCMonth() && targetDate.getUTCFullYear() == taskDate.getUTCFullYear()
+            })
+        }
+        if (dateString == 'month')
+        result = array.filter(task => {
+            targetDate = new Date();
+            console.log(targetDate);
+            let taskDate = new Date(task.date);
+            return targetDate.getUTCMonth() == taskDate.getUTCMonth() && targetDate.getUTCFullYear() == taskDate.getUTCFullYear()
+        })
+        return result;
     }
+
+    // let date = new Date(taskDate);
+    // date = new Date(
+    //     date.getUTCFullYear(),
+    //     date.getUTCMonth(),
+    //     date.getUTCDate());
+
+
+
 
     static clearStorage() {
         localStorage.clear();
@@ -194,4 +222,4 @@ export class Storage {
 if (storageAvailable('localStorage')) {
     // Storage.clearStorage();
     Storage.start();
-  }
+}
