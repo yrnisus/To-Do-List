@@ -41,13 +41,16 @@ function createTasksList() {
     const taskList = document.createElement('ul');
     taskList.classList.add('sidebar-content');
 
+    const taskBtnArray = ['all-tasks', 'today-btn', 'week-btn', 'month-btn']
+
     for (let i = 0; i < tasksArray.length; i++) {
         let task = document.createElement('li');
         let icon = document.createElement('i');
-        if(i == 0)
-        {
-         task.id = "all-tasks"
-        }
+        // if(i == 0)
+        // {
+        //  task.id = "all-tasks"
+        // }
+        task.id = taskBtnArray[i];
         icon.classList.add("fa-solid", tasksIconArray[i]);
         task.appendChild(icon);
         task.innerHTML += tasksArray[i];

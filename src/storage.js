@@ -2,7 +2,7 @@ import { indexOf } from 'lodash';
 import {
     Project
 } from './project'
-
+import {isToday} from 'date-fns'
 
 //Save names of project as an array?
 let projectArray = [];
@@ -164,6 +164,24 @@ export class Storage {
         })
         taskArray.splice(index, 1);
         this.setTasks();
+    }
+
+    static getTasksByDate(dateString) {
+        let result = "";
+        let array = JSON.parse(localStorage.getItem("tasks"));
+        let today = new Date();
+        if(dateString == 'today') {
+             result = array.filter(task => {
+                //task.date is a string not a date
+                let taskDate = new Date(task.date);
+                console.log(taskDate);
+                return today.getDate() == taskDate.getDate() 
+             })
+            }
+        console.log(result);
+
+
+        // dayDate.innerHTML += format(new Date(), 'MM/dd');
     }
 
     static clearStorage() {

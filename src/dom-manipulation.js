@@ -38,6 +38,7 @@ function createAddTaskBtn() {
 }
 
 function setTasks() {
+    //gets the array of tasks from storage then displays them in the task list
     const taskArr = Storage.getTaskList();
     const tasksList = document.getElementById('tasks-list');
     while (tasksList.firstChild) {
@@ -116,7 +117,8 @@ function removeTask(taskObj, taskContainer) {
 }
 
 function cleanDate(date) {
-    date = format(new Date(date.replaceAll('-', ', ')), 'MM/dd/yy');
+    date = format(new Date(date), 'MM/dd/yy');
+    // date = format(date, 'MM/dd/yy');
     return date;
 }
 
@@ -212,6 +214,20 @@ function eventListeners() {
             setTasks();
         })
 
+        //Date Tabs
+        const todayBtn = document.getElementById('today-btn');
+        todayBtn.addEventListener('click', () => {
+            changeTabName("Today");
+            //display an array with the tasks by date
+            Storage.getTasksByDate('today')
+            // Storage.setActiveProject(0);
+            // setTasks();
+        })
+
+        const weekBtn = document.getElementById('week-btn');
+
+        const monthBtn = document.getElementById('month-btn');
+
 
         const projectCancelBtn = document.getElementById('project-cancel-btn');
         projectCancelBtn.addEventListener('click', () => {
@@ -285,8 +301,6 @@ function setProjects() {
 
 function removeProject(projectUI, projectObj) {
     projectUI.remove();
-    //how does this work with no arg?
-    console.log(projectObj);
     Storage.removeProject(projectObj);
 }
 
@@ -308,6 +322,10 @@ function changeTabName(tabName) {
     let title = document.querySelector('.title');
     title.textContent = capitalizeFirstLetter(tabName);
 }
+
+// Date Tabs
+
+
 
 eventListeners();
 export {
