@@ -171,7 +171,7 @@ ul {
     cursor: pointer;
 }
 
-.x {
+.project-xmark {
     font-size: 20px;
     pointer-events: none;
 }
@@ -270,7 +270,7 @@ ul {
 
 .task-wrapper {
     height: 60px;
-    width: max(700px);
+    width: max(90%);
     display: flex;
     align-items: center;
     border-radius: 50px;
@@ -425,7 +425,7 @@ ul {
     position: relative;
     flex-direction: column;
     margin-top: -5px;
-    width: max(700px);
+    width: max(90%);
     height: min(200px);
     justify-content: center;
     align-items: center;

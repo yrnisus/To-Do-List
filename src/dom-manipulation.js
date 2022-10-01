@@ -353,19 +353,22 @@ function removeProjectBtn(projectUI, projectObj) {
         // console.log("Here")
     })
 
+    //broke the thing
+
+
     //put an svg X inside the hidden button
     const newProjectCloseIcon = document.createElement('i');
-    newProjectCloseIcon.classList.add('fa-solid', 'fa-xmark', 'x', 'hidden');
+    newProjectCloseIcon.classList.add('fa-solid', 'fa-xmark', 'project-xmark', 'hidden');
     hiddenBtn.appendChild(newProjectCloseIcon);
     return hiddenBtn;
 }
 
 function toggleRemoveProjectBtn(project) {
     project.addEventListener('mouseover', () => {
-        project.querySelector('.x').classList.remove('hidden');
+        project.querySelector('.project-xmark').classList.remove('hidden');
     })
     project.addEventListener('mouseleave', () => {
-        project.querySelector('.x').classList.add('hidden');
+        project.querySelector('.project-xmark').classList.add('hidden');
     })
 }
 

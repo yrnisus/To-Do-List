@@ -28,7 +28,7 @@ function createTasksHeading() {
     //Tasks
     const tasksHeading = document.createElement('div');
     tasksHeading.classList.add('sidebar-heading');
-    tasksHeading.innerHTML = "Tasks";
+    tasksHeading.innerHTML = "View";
     return tasksHeading;
 }
 
