@@ -25,10 +25,6 @@ function newTaskForm() {
 
 function getFormInputs(form) {
     form.addEventListener('submit', function () {
-
-        //date picker causes an issue with dates something to do with UTC
-
-
         //gets the user input from form and creates a new task
         const formData = new FormData(form);
         const formProps = Object.fromEntries(formData);

@@ -51,9 +51,6 @@ function setTasks(taskArray) {
 
 function addTask(taskObj) {
     //receives as object
-
-
-
     const urgency = taskObj.urgency;
     //taskList is the container for every task
     const tasksList = document.getElementById('tasks-list');
@@ -133,11 +130,6 @@ function toggleComplete(taskObj, taskContainer) {
         // console.log("false");
         Storage.setCompletion(taskObj, false);
     }
-}
-
-function markComplete() {
-        taskName.classList.add('strike');
-        taskContainer.classList.add('complete');
 }
 
 

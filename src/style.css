@@ -7,11 +7,17 @@
     --bg-color: #FFF;
     --bg-dark-color: #D6D6D6;
 
-    --red-light: #F9B1B1;
+    /* --red-light: #F9B1B1;
     --red-dark: #D42828;
     --yellow-light: #E6E97A;
     --yellow-dark: #BDA006;
     --green-light: #C9F8C2;
+    --green-dark: #24BC0B; */
+    --red-light: #FFF;
+    --red-dark: #D42828;
+    --yellow-light: #FFF;
+    --yellow-dark: #BDA006;
+    --green-light: #FFF;
     --green-dark: #24BC0B;
 }
 
@@ -373,19 +379,19 @@ ul {
 .task-wrapper.high,
 .task-description-wrapper.high {
     background-color: var(--red-light);
-    border: 5px solid var(--red-dark);
+    border: 3px solid;
 }
 
 .task-wrapper.medium,
 .task-description-wrapper.medium {
     background-color: var(--yellow-light);
-    border: 5px solid var(--yellow-dark);
+    border: 3px solid;
 }
 
 .task-wrapper.low,
 .task-description-wrapper.low {
     background-color: var(--green-light);
-    border: 5px solid var(--green-dark);
+    border: 3px solid;
 }
 
 .task-description-wrapper.high,
