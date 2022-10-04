@@ -29,12 +29,12 @@ function createFormAndAddTaskWrapper() {
     const newTaskFormWrapper = newTaskForm();
     const modal = editModal();
 
-    window.onclick = function(event) {
-        if(event.target == modal) {
+    window.onclick = function (event) {
+        if (event.target == modal) {
             modal.style.display = "none";
         }
     }
-    
+
     ele.appendChild(modal);
     ele.appendChild(newTaskFormWrapper);
     ele.appendChild(addTaskBtn);
@@ -101,7 +101,7 @@ function addTask(taskObj) {
     // Dropdown description
     const taskDescriptionWrapper = document.createElement('div');
     taskDescriptionWrapper.classList.add('task-description-wrapper')
-    taskDescriptionWrapper.appendChild(createEditBtn(urgency));
+    taskDescriptionWrapper.appendChild(createEditBtn(urgency, taskObj));
 
 
     const taskDescription = document.createElement('div');
@@ -130,7 +130,6 @@ function addTask(taskObj) {
         taskName.classList.add('strike');
         taskContainer.classList.add('complete');
     }
-    console.log(Storage.getCompletion(taskObj));
     // toggleComplete()
     //append the entire line to the tasksList
     tasksList.appendChild(taskContainer);
@@ -152,16 +151,13 @@ function createCompletionBtn(taskObj, taskContainer) {
 
 function toggleComplete(taskObj, taskContainer) {
     const taskName = taskContainer.querySelector('#task-name')
-    console.log(Storage.getCompletion(taskObj));
     if (!Storage.getCompletion(taskObj)) {
         taskName.classList.add('strike');
         taskContainer.classList.add('complete');
         Storage.setCompletion(taskObj, true);
-        // console.log("true");
     } else {
         taskName.classList.remove('strike');
         taskContainer.classList.remove('complete');
-        // console.log("false");
         Storage.setCompletion(taskObj, false);
     }
 }
@@ -224,13 +220,14 @@ function toggleDescription(urgency, view, taskDescriptionWrapper) {
     taskDescriptionWrapper.style.display = view;
 }
 
-function createEditBtn(urgency) {
+function createEditBtn(urgency, taskObj) {
     const editBtn = document.createElement('button');
     editBtn.id = 'edit-btn';
     editBtn.classList.add('hidden-btn');
-    console.log(editBtn);
     editBtn.addEventListener('click', () => {
+        populateEditModal(taskObj);
         showEditModal();
+        Storage.setEditTaskID(taskObj.taskID);
     })
 
     const emptyCircle = document.createElement('i');
@@ -245,21 +242,36 @@ function createEditBtn(urgency) {
     return editBtn;
 }
 
+function populateEditModal(taskObj) {
+    Storage.set
+    const editTaskModal = document.getElementById('edit-modal');
+    editTaskModal.querySelector('#modalEditName').value = taskObj.taskName;
+    editTaskModal.querySelector('#modalEditDescription').value = taskObj.description;
+    editTaskModal.querySelector('#modalEditDate').value = format(new Date(taskObj.date), 'yyyy-MM-dd');
+    editTaskModal.querySelector('#modalEditUrgency').value = taskObj.urgency;
+}
+
 function editModal() {
     const editTaskModal = document.createElement('div');
     editTaskModal.id = 'edit-modal';
     editTaskModal.classList.add('modal');
 
+    console.log()
     const modalContent = document.createElement('div');
     modalContent.classList.add('modal-content');
+    modalContent.innerHTML += `<form id="editModalTaskForm" onsubmit="return false" action="#">
+    <label for="taskName">Task:</label><input type="text" id="modalEditName" name="taskName" required>
+    <label for="description">Description:</label><textarea name="description" id="modalEditDescription" rows="3"></textarea
+    <label for="date">Date:</label><input type="date" onfocus="this.showPicker()" id="modalEditDate" name="date" required >
+    <label for="urgency">Urgency:</label><select name="urgency" id="modalEditUrgency" required><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
+    <div class="form-button-wrapper"><input class="form-button" id="modal-submit-btn" type="submit" value="Edit"><input id="modal-cancel-btn" class="form-button" type="" value="Cancel"></div></form>`;
 
-    modalContent.innerHTML+='<form id ="editModalTaskForm" onsubmit="return false" action="#"><label for="taskName">Task:</label><input type="text" id="taskName" name="taskName" required><label for="description">Description:</label><textarea name="description" id="description" rows="3"></textarea><label for="date">Date:</label><input type="date" onfocus="this.showPicker()" id="date" name="date" required ><label for="urgency">Urgency:</label><select name="urgency" id="urgency" required><option value="" >--Please select an option--</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select><div class="form-button-wrapper"><input class="form-button" type="submit" value="Add"><input id="cancel-btn" class="form-button" type="reset" value="Cancel"></div></form>';
+    modalContent.querySelector('#modal-cancel-btn').addEventListener("click", () => {
+        {
+            editTaskModal.style.display = "none";
+        }
+    })
 
-
-    // modalContent.innerHTML+= '<div class="modal-title">Edit task</div><span class="closeModal">&times;</span><p>Some text in the Modal..</p>'
-    // modalContent.querySelector('.closeModal').addEventListener('click', () => {
-    //     editTaskModal.style.display = "none";
-    // })
 
     editTaskModal.appendChild(modalContent);
     return editTaskModal;
@@ -268,7 +280,6 @@ function editModal() {
 function showEditModal() {
     const modal = document.getElementById('edit-modal');
     modal.style.display = "flex";
-    console.log(modal);
 }
 
 
@@ -364,12 +375,6 @@ function eventListeners() {
             // setTasks();
         })
 
-        // const editBtn = document.getElementById('edit-btn');
-        // console.log(editBtn);
-        // editBtn.addEventListener('click', () => {
-        //     alert();
-        // })
-
         const projectCancelBtn = document.getElementById('project-cancel-btn');
         projectCancelBtn.addEventListener('click', () => {
             hideProjectAddBtn();
@@ -380,6 +385,30 @@ function eventListeners() {
             btn.addEventListener('click', () => {
                 btn.remove();
             })
+        })
+
+        const editModal = document.getElementById('editModalTaskForm');
+        editModal.addEventListener('submit', function () {
+            const formData = new FormData(editModal);
+            const formProps = Object.fromEntries(formData);
+            //need to create a new Task Object
+            const editTask = new Task(formProps);
+            let date = new Date(editTask.date);
+            date = new Date(
+                date.getUTCFullYear(),
+                date.getUTCMonth(),
+                date.getUTCDate());
+            editTask.date = date;
+
+            console.log(editTask);
+
+            // this needs to get active project 
+            // newTask.setProjectID(Storage.getProjectID())
+            // newTask.setProjectID(Storage.getActiveProject());
+            // newTask.setTaskID(Storage.getTaskID());
+            // console.log(newTask.taskID);
+            // Storage.addTask(newTask);
+            // setTasks(Storage.getTaskList());
         })
     })
 }

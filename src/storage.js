@@ -18,6 +18,7 @@ let projectID = 2;
 let taskID = 0;
 let activeProject = 0;
 let activeDate = "";
+let editTaskID = 0;
 
 
 function storageAvailable(type) {
@@ -274,6 +275,21 @@ export class Storage {
         })
         return result;
     }
+
+    static createEditTaskID() {
+        if (localStorage.editTaskIDStorage)
+            editTaskID = localStorage.getItem("editTaskIDStorage");
+        else {
+            localStorage.setItem('editTaskIDStorage', editTaskID);
+        }
+    }
+
+    static setEditTaskID(editID) {
+        console.log(editID);
+        localStorage.setItem('editTaskIDStorage', editTaskID);
+        console.log(editTaskID);
+    }
+
 
 
     static clearStorage() {
