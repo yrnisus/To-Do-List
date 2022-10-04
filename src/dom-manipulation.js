@@ -14,6 +14,9 @@ import {
 import {
     Storage
 } from './storage'
+import {
+    create
+} from 'lodash'
 
 const taskArray = [];
 
@@ -24,6 +27,15 @@ function createFormAndAddTaskWrapper() {
     ele.classList.add('add-wrapper');
     const addTaskBtn = createAddTaskBtn();
     const newTaskFormWrapper = newTaskForm();
+    const modal = editModal();
+
+    window.onclick = function(event) {
+        if(event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    
+    ele.appendChild(modal);
     ele.appendChild(newTaskFormWrapper);
     ele.appendChild(addTaskBtn);
     return ele;
@@ -64,19 +76,40 @@ function addTask(taskObj) {
     const task = document.createElement('div');
     task.classList.add('task');
     let date = cleanDate(taskObj.date)
-    task.innerHTML = `<div class='task-left'><span class='x' id='completed-icon'><i class='task-icon fa-solid fa-circle-chevron-down'></i></span>
-    <div class='task-name-date-wrapper'><div id='task-name'>${taskObj.taskName}</div><div id='task-date'>${date}</div></div></div><div class='task-right'><div id='task-completion-btn'><i class='task-icon fa-solid fa-circle-check'></i></div><div class='task-icon' id='task-remove-btn'><i class='fa-solid fa-trash'></i></div></div>`;
+    task.innerHTML =
+        `<div class='task-left'>
+        <div id='task-completion-btn'><i class='task-icon fa-solid fa-circle-check'></i></div>
+        <div class='task-name-date-wrapper'>
+            <div id='task-name'>${taskObj.taskName}</div>
+        </div>
+    </div>
+    <div class='task-right'>
+        <div id='task-date-wrapper'>
+            <div id='task-date'>${date[0]}</div>
+            <div>${date[1]}</div>
+        </div>
+    <span class='x' id='toggle-description-icon'>
+        <i class='task-icon fa-solid fa-circle-chevron-down'></i>
+    </span>
+    <div class='task-icon' id='task-remove-btn'><i class='fa-solid fa-trash'></i></div>
+    </div>`;
 
 
+    const coloredBorderDiv = document.createElement('div');
+    coloredBorderDiv.classList.add('colored-border', urgency)
 
     // Dropdown description
     const taskDescriptionWrapper = document.createElement('div');
     taskDescriptionWrapper.classList.add('task-description-wrapper')
-    // taskDescriptionWrapper.innerHTML+= `<div class="task-description">${x.getDescription()}</div>`
+    taskDescriptionWrapper.appendChild(createEditBtn(urgency));
+
 
     const taskDescription = document.createElement('div');
     taskDescription.classList.add('task-description');
-    taskDescription.appendChild(createEditBtn(urgency));
+
+    //doesnt allow event listener for some reason?
+    // taskDescription.appendChild(createEditBtn(urgency));
+
     taskDescription.innerHTML += `<div class='task-description-text'>${taskObj.description}</div>`;
     taskDescriptionWrapper.appendChild(taskDescription);
 
@@ -92,7 +125,7 @@ function addTask(taskObj) {
     taskContainer.appendChild(tasksWrapper);
     createRemoveTaskBtn(taskObj, taskContainer);
     createCompletionBtn(taskObj, taskContainer);
-    if(Storage.getCompletion(taskObj)) {
+    if (Storage.getCompletion(taskObj)) {
         const taskName = taskContainer.querySelector('#task-name')
         taskName.classList.add('strike');
         taskContainer.classList.add('complete');
@@ -101,11 +134,12 @@ function addTask(taskObj) {
     // toggleComplete()
     //append the entire line to the tasksList
     tasksList.appendChild(taskContainer);
+    tasksList.appendChild(coloredBorderDiv);
     tasksList.appendChild(taskDescriptionWrapper);
     const allIcons = task.querySelectorAll('.task-icon');
     //changes border-color of task
     setUrgencyColor(tasksWrapper, allIcons, urgency);
-    // const icon = task.querySelector('#completed-icon');
+    // const icon = task.querySelector('#toggle-description-icon');
     toggleDropdown(urgency, tasksWrapper, taskDescriptionWrapper);
 }
 
@@ -149,9 +183,10 @@ function removeTask(taskObj, taskContainer) {
 }
 
 function cleanDate(date) {
-    date = format(new Date(date), 'MM/dd/yy');
-    // date = format(date, 'MM/dd/yy');
-    return date;
+    let newDate = [];
+    newDate[0] = format(new Date(date), 'MM/dd');
+    newDate[1] = format(new Date(date), 'yyyy');
+    return newDate;
 }
 
 function setUrgencyColor(taskWrapper, allIcons, urgency) {
@@ -162,18 +197,21 @@ function setUrgencyColor(taskWrapper, allIcons, urgency) {
 }
 
 function toggleDropdown(urgency, taskWrapper, taskDescriptionWrapper) {
-    const icon = taskWrapper.querySelector('#completed-icon');
+    const icon = taskWrapper.querySelector('#toggle-description-icon');
     let view;
     icon.addEventListener('click', () => {
         if (icon.classList.contains('x')) {
             icon.innerHTML = `<i class='task-icon fa-solid fa-circle-chevron-up ${urgency}'></i>`
             icon.classList.remove('x');
-            taskWrapper.style.borderRadius = '50px 50px 0px 0px';
+            taskWrapper.style.borderRadius = '15px 15px 0px 0px';
+            taskWrapper.style.borderBottom = "none";
+            taskDescriptionWrapper.style.borderRadius = '0px 0px 15px 15px';
             view = 'flex';
         } else {
             icon.innerHTML = `<i class='task-icon fa-solid fa-circle-chevron-down ${urgency}'></i>`
             icon.classList.add('x');
-            taskWrapper.style.borderRadius = '50px 50px 50px 50px';
+            taskWrapper.style.borderRadius = '15px';
+            taskWrapper.style.borderBottom = "3px solid black";
             view = 'none';
         }
         toggleDescription(urgency, view, taskDescriptionWrapper);
@@ -187,16 +225,52 @@ function toggleDescription(urgency, view, taskDescriptionWrapper) {
 }
 
 function createEditBtn(urgency) {
-    // const editBtnWrapper = document.createElement('div');
-    // editBtnWrapper.classList.add('edit-btn-wrapper');
+    const editBtn = document.createElement('button');
+    editBtn.id = 'edit-btn';
+    editBtn.classList.add('hidden-btn');
+    console.log(editBtn);
+    editBtn.addEventListener('click', () => {
+        showEditModal();
+    })
 
-    const editBtn = document.createElement('div');
-    editBtn.classList.add('edit-btn');
-    editBtn.innerHTML = "<i id='empty-circle' class='task-icon fa-solid fa-circle'></i><i id='pencil' class='task-icon fa-solid fa-pencil'>";
-    editBtn.querySelector('#empty-circle').classList.add(urgency);
-    // editBtnWrapper.appendChild(editBtn)
+    const emptyCircle = document.createElement('i');
+    emptyCircle.classList.add('clickthrough', 'task-icon', 'fa-solid', 'fa-circle', urgency, 'empty-circle');
+
+    const pencil = document.createElement('i');
+    pencil.classList.add('clickthrough', 'task-icon', 'fa-solid', 'fa-pencil', 'urgency', 'pencil');
+
+    editBtn.appendChild(pencil);
+    editBtn.appendChild(emptyCircle);
+    editBtn.appendChild(pencil);
     return editBtn;
 }
+
+function editModal() {
+    const editTaskModal = document.createElement('div');
+    editTaskModal.id = 'edit-modal';
+    editTaskModal.classList.add('modal');
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+
+    modalContent.innerHTML+='<form id ="editModalTaskForm" onsubmit="return false" action="#"><label for="taskName">Task:</label><input type="text" id="taskName" name="taskName" required><label for="description">Description:</label><textarea name="description" id="description" rows="3"></textarea><label for="date">Date:</label><input type="date" onfocus="this.showPicker()" id="date" name="date" required ><label for="urgency">Urgency:</label><select name="urgency" id="urgency" required><option value="" >--Please select an option--</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select><div class="form-button-wrapper"><input class="form-button" type="submit" value="Add"><input id="cancel-btn" class="form-button" type="reset" value="Cancel"></div></form>';
+
+
+    // modalContent.innerHTML+= '<div class="modal-title">Edit task</div><span class="closeModal">&times;</span><p>Some text in the Modal..</p>'
+    // modalContent.querySelector('.closeModal').addEventListener('click', () => {
+    //     editTaskModal.style.display = "none";
+    // })
+
+    editTaskModal.appendChild(modalContent);
+    return editTaskModal;
+}
+
+function showEditModal() {
+    const modal = document.getElementById('edit-modal');
+    modal.style.display = "flex";
+    console.log(modal);
+}
+
 
 function eventListeners() {
     window.addEventListener("load", () => {
@@ -290,7 +364,11 @@ function eventListeners() {
             // setTasks();
         })
 
-
+        // const editBtn = document.getElementById('edit-btn');
+        // console.log(editBtn);
+        // editBtn.addEventListener('click', () => {
+        //     alert();
+        // })
 
         const projectCancelBtn = document.getElementById('project-cancel-btn');
         projectCancelBtn.addEventListener('click', () => {
@@ -344,9 +422,6 @@ function removeProjectBtn(projectUI, projectObj) {
         // setTasks(Storage.getTaskList());
         // console.log("Here")
     })
-
-    //broke the thing
-
 
     //put an svg X inside the hidden button
     const newProjectCloseIcon = document.createElement('i');

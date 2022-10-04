@@ -3,7 +3,8 @@
 Things to fix:
     Test overflows the box
     Clear Fields on submit
-    On Check strikethrough text and alter the color to make it clear it has been completed
+
+    UTC bug is still there. At 8 pm it isnt showing todays tasks
 
 
 
