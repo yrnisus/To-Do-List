@@ -139,7 +139,7 @@ export class Storage {
 
     static createTaskID() {
         if (localStorage.currentTaskID)
-            projectID = localStorage.getItem("currentTaskID");
+            taskID = localStorage.getItem("currentTaskID");
         else {
             localStorage.setItem('currentTaskID', taskID)
         }
@@ -276,21 +276,17 @@ export class Storage {
         return result;
     }
 
-    static createEditTaskID() {
-        if (localStorage.editTaskIDStorage)
-            editTaskID = localStorage.getItem("editTaskIDStorage");
-        else {
-            localStorage.setItem('editTaskIDStorage', editTaskID);
-        }
-    }
-
     static setEditTaskID(editID) {
-        console.log(editID);
-        localStorage.setItem('editTaskIDStorage', editTaskID);
-        console.log(editTaskID);
+        editTaskID = editID;
     }
 
-
+    static editTask(obj) {
+        taskArray[editTaskID].taskName = obj.taskName;
+        taskArray[editTaskID].description = obj.description;
+        taskArray[editTaskID].date = obj.date;
+        taskArray[editTaskID].urgency = obj.urgency;
+        this.setTasks();
+    }
 
     static clearStorage() {
         localStorage.clear();
@@ -302,4 +298,5 @@ export class Storage {
 if (storageAvailable('localStorage')) {
     // Storage.clearStorage();
     Storage.start();
+    console.log(Storage.getTaskID());
 }

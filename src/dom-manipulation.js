@@ -391,24 +391,16 @@ function eventListeners() {
         editModal.addEventListener('submit', function () {
             const formData = new FormData(editModal);
             const formProps = Object.fromEntries(formData);
-            //need to create a new Task Object
-            const editTask = new Task(formProps);
-            let date = new Date(editTask.date);
+            let date = new Date(formProps.date);
             date = new Date(
                 date.getUTCFullYear(),
                 date.getUTCMonth(),
                 date.getUTCDate());
-            editTask.date = date;
-
-            console.log(editTask);
-
-            // this needs to get active project 
-            // newTask.setProjectID(Storage.getProjectID())
-            // newTask.setProjectID(Storage.getActiveProject());
-            // newTask.setTaskID(Storage.getTaskID());
-            // console.log(newTask.taskID);
-            // Storage.addTask(newTask);
-            // setTasks(Storage.getTaskList());
+            formProps.date = date;
+            Storage.editTask(formProps);
+            const editTaskModal = document.getElementById('edit-modal');
+            editTaskModal.style.display = 'none';
+            setTasks(Storage.getTaskList());
         })
     })
 }
