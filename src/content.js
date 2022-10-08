@@ -39,7 +39,7 @@ function createContentHeading() {
     // contentTitle.textContent = "Today";
 
     let title = document.createElement('div');
-    title.classList.add('title');
+    title.classList.add('title', 'unselectable');
     title.textContent = "All Tasks";
     contentTitle.appendChild(title);
 

@@ -27,7 +27,7 @@ function createTasks() {
 function createTasksHeading() {
     //Tasks
     const tasksHeading = document.createElement('div');
-    tasksHeading.classList.add('sidebar-heading');
+    tasksHeading.classList.add('sidebar-heading', 'unselectable');
     tasksHeading.innerHTML = "View";
     return tasksHeading;
 }
@@ -83,20 +83,6 @@ function createProjectList() {
     const projectList = document.createElement('ul');
     projectList.classList.add('project-list')
     projectList.classList.add('sidebar-content');
-
-    // this creates the initial list
-    // for (let i = 0; i < projectsArray.length; i++) {
-    //     let project = document.createElement('li');
-    //     let icon = document.createElement('i');
-    //     icon.classList.add("fa-solid", projectsIconArray[i]);
-    //     project.appendChild(icon);
-    //     project.innerHTML += projectsArray[i];
-    //     const newProjectCloseIcon = document.createElement('i');
-    //     newProjectCloseIcon.classList.add('fa-solid', 'fa-xmark', 'close-mark')
-    //     project.appendChild(newProjectCloseIcon);
-    //     projectList.appendChild(project);
-    // }
-
     return projectList;
 }
 

@@ -23,7 +23,7 @@ export default function header() {
   // headerWrapper.appendChild(taskIcon);
 
   const headerText = document.createElement('div');
-  headerText.classList.add("header-text");
+  headerText.classList.add("header-text",'unselectable');
   headerText.innerText = "To Do";
 
   headerWrapper.appendChild(headerText);

@@ -114,7 +114,7 @@ function addTask(taskObj) {
     <div class='task-icon' id='task-remove-btn'><i class='fa-solid fa-trash'></i></div>
     </div>`;
 
-  // const dayText = document.createElement('div');
+    // const dayText = document.createElement('div');
     // dayText.innerHTML += format(new Date(), 'eeee');
 
 
@@ -311,8 +311,8 @@ function eventListeners() {
         const addTaskModal = document.querySelector('#add-task-modal');
         addTaskBtn.addEventListener('click', () => {
             if (addTaskModal.style.display === "none")
-                    console.log("Yes");
-                addTaskModal.style.display = 'flex';
+                console.log("Yes");
+            addTaskModal.style.display = 'flex';
         })
 
         //when either submit or cancel button is clicked hide the form show the add task button
@@ -417,7 +417,28 @@ function eventListeners() {
             editTaskModal.style.display = 'none';
             setTasks(Storage.getTaskList());
         })
+
+        //hide sidebar
+        const hamburgerMenuBtn = document.querySelector('.menu-icon-wrapper');
+        hamburgerMenuBtn.addEventListener('click', () => {
+            toggleSidebar();
+        })
+
+
     })
+}
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar')
+    const content = document.querySelector('.content-container')
+    if (!sidebar.classList.contains('hide')) {
+        sidebar.classList.add('hide');
+        content.classList.add('fullscreen');
+    }
+    else {
+        sidebar.classList.remove('hide');
+        content.classList.remove('fullscreen');
+    }
 }
 
 function addProject(projectObj) {
