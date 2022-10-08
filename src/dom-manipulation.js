@@ -24,31 +24,48 @@ const taskArray = [];
 //creates div containing the form for a new task and the add task button
 function createFormAndAddTaskWrapper() {
     const ele = document.createElement('div');
-    ele.classList.add('add-wrapper');
-    // const addTaskBtn = createAddTaskBtn();
-    const newTaskFormWrapper = newTaskForm();
-    const modal = editModal();
+    // ele.classList.add('add-wrapper');
+    // const newTaskFormWrapper = newTaskForm();
+    const eModal = editModal();
+    const addModal = createAddTaskModal();
 
     window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (event.target == eModal || event.target == addModal) {
+            event.target.style.display = "none";
         }
     }
 
-    ele.appendChild(modal);
-    ele.appendChild(newTaskFormWrapper);
+    ele.appendChild(eModal);
+    ele.appendChild(addModal);
     // ele.appendChild(addTaskBtn);
     return ele;
 }
-//creates the div for the add Task button
-//modal
+//creates add Task Modal
 function createAddTaskModal() {
     const addTaskModal = document.createElement('div');
-    addTaskBtn.classList.add('add-task-btn', 'unselectable');
-    addTaskBtn.innerHTML += '<i class="fa-solid fa-plus"></i> Add task';
-    return addTaskBtn;
+    addTaskModal.id = "add-task-modal"
+    addTaskModal.classList.add('modal');
+
+    const addTaskModalContent = newTaskForm();
+    addTaskModalContent.classList.add('modal-content');
+
+
+    const form = addTaskModalContent.querySelector('form');
+    form.addEventListener('submit', () => {
+        addTaskModal.style.display = "none";
+    })
+
+    addTaskModalContent.querySelector('#cancel-btn').addEventListener("click", () => {
+        {
+            addTaskModal.style.display = "none";
+        }
+    })
+
+    addTaskModal.appendChild(addTaskModalContent);
+    return addTaskModal;
 
 }
+
 
 function setTasks(taskArray) {
     //gets the array of tasks from storage then displays them in the task list
@@ -108,19 +125,12 @@ function addTask(taskObj) {
     const taskDescription = document.createElement('div');
     taskDescription.classList.add('task-description');
 
-    //doesnt allow event listener for some reason?
-    // taskDescription.appendChild(createEditBtn(urgency));
-
     taskDescription.innerHTML += `<div class='task-description-text'>${taskObj.description}</div>`;
     taskDescriptionWrapper.appendChild(taskDescription);
 
-    // ${format(new Date(taskArray[i].getDate()), 'MM/dd/yyyy')}</div><
     const tasksWrapper = document.createElement('div');
     tasksWrapper.classList.add('task-wrapper');
     tasksWrapper.appendChild(task);
-
-    //append the square to the container 
-    // taskContainer.appendChild(completionSquare);
 
     //apend the taskWrapper to the container
     taskContainer.appendChild(tasksWrapper);
@@ -139,7 +149,6 @@ function addTask(taskObj) {
     const allIcons = task.querySelectorAll('.task-icon');
     //changes border-color of task
     setUrgencyColor(tasksWrapper, allIcons, urgency);
-    // const icon = task.querySelector('#toggle-description-icon');
     toggleDropdown(urgency, tasksWrapper, taskDescriptionWrapper);
 }
 
@@ -289,19 +298,22 @@ function eventListeners() {
         setProjects();
         // setTasks();
         setTasks(Storage.getTaskList());
-        // setProjectID();
-        // when add task button is clicked unhide the new task form
+
+
+        // when add task button is clicked unhide the new task modal
         const addTaskBtn = document.querySelector('.add-task-wrapper')
-        const newTaskFormWrapper = document.querySelector('.new-task-form-wrapper');
+        console.log(addTaskBtn);
+        const addTaskModal = document.querySelector('#add-task-modal');
         addTaskBtn.addEventListener('click', () => {
-            if (newTaskFormWrapper.classList.contains('hidden'))
-                newTaskFormWrapper.classList.remove('hidden');
+            if (addTaskModal.style.display === "none")
+                    console.log("Yes");
+                addTaskModal.style.display = 'flex';
         })
 
         //when either submit or cancel button is clicked hide the form show the add task button
-        document.getElementById('cancel-btn').addEventListener("click", () => {
-            newTaskFormWrapper.classList.add('hidden');
-        })
+        // document.getElementById('cancel-btn').addEventListener("click", () => {
+        //     newTaskFormWrapper.classList.add('hidden');
+        // })
 
         //when add project is clicked hide the add project button and show the project name field
         const projectAddBtn = document.getElementById('project-add-btn');
