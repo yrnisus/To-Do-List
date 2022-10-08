@@ -25,7 +25,7 @@ const taskArray = [];
 function createFormAndAddTaskWrapper() {
     const ele = document.createElement('div');
     ele.classList.add('add-wrapper');
-    const addTaskBtn = createAddTaskBtn();
+    // const addTaskBtn = createAddTaskBtn();
     const newTaskFormWrapper = newTaskForm();
     const modal = editModal();
 
@@ -37,13 +37,13 @@ function createFormAndAddTaskWrapper() {
 
     ele.appendChild(modal);
     ele.appendChild(newTaskFormWrapper);
-    ele.appendChild(addTaskBtn);
+    // ele.appendChild(addTaskBtn);
     return ele;
 }
 //creates the div for the add Task button
 //modal
-function createAddTaskBtn() {
-    const addTaskBtn = document.createElement('div');
+function createAddTaskModal() {
+    const addTaskModal = document.createElement('div');
     addTaskBtn.classList.add('add-task-btn', 'unselectable');
     addTaskBtn.innerHTML += '<i class="fa-solid fa-plus"></i> Add task';
     return addTaskBtn;
@@ -244,7 +244,7 @@ function createEditBtn(urgency, taskObj) {
 }
 
 function populateEditModal(taskObj) {
-    Storage.set
+    // Storage.set Dunno
     const editTaskModal = document.getElementById('edit-modal');
     editTaskModal.querySelector('#modalEditName').value = taskObj.taskName;
     editTaskModal.querySelector('#modalEditDescription').value = taskObj.description;
@@ -291,18 +291,15 @@ function eventListeners() {
         setTasks(Storage.getTaskList());
         // setProjectID();
         // when add task button is clicked unhide the new task form
-        const addTaskBtn = document.querySelector('.add-task-btn')
+        const addTaskBtn = document.querySelector('.add-task-wrapper')
         const newTaskFormWrapper = document.querySelector('.new-task-form-wrapper');
         addTaskBtn.addEventListener('click', () => {
             if (newTaskFormWrapper.classList.contains('hidden'))
                 newTaskFormWrapper.classList.remove('hidden');
-            addTaskBtn.classList.add("hidden");
         })
 
         //when either submit or cancel button is clicked hide the form show the add task button
         document.getElementById('cancel-btn').addEventListener("click", () => {
-            if (addTaskBtn.classList.contains('hidden'))
-                addTaskBtn.classList.remove('hidden');
             newTaskFormWrapper.classList.add('hidden');
         })
 

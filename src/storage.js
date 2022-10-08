@@ -170,6 +170,14 @@ export class Storage {
         return taskIndex
     }
 
+    //receives taskID to then find the obj to then find the index. This is terrible code
+    static getTaskObj(id) {
+        const obj = taskArray.find(object => {
+            return object.taskID === id;
+        })
+        return obj
+    }
+
     static getTaskList() {
         let array = JSON.parse(localStorage.getItem("tasks"));
         let result = array.filter(task => task.projectID == activeProject)
@@ -276,15 +284,22 @@ export class Storage {
         return result;
     }
 
+    //receives taskID from task when edit button is clicked
     static setEditTaskID(editID) {
         editTaskID = editID;
     }
 
     static editTask(obj) {
-        taskArray[editTaskID].taskName = obj.taskName;
-        taskArray[editTaskID].description = obj.description;
-        taskArray[editTaskID].date = obj.date;
-        taskArray[editTaskID].urgency = obj.urgency;
+        //receives an obj of the taskName, description, date, and urgency from edit Modal
+        let taskObj = this.getTaskObj(editTaskID);
+        console.log('here ' + editTaskID);
+        console.log("Taskobj " + taskObj);
+        let index = this.getTaskIndex(taskObj);
+        console.log(index);
+        taskArray[index].taskName = obj.taskName;
+        taskArray[index].description = obj.description;
+        taskArray[index].date = obj.date;
+        taskArray[index].urgency = obj.urgency;
         this.setTasks();
     }
 

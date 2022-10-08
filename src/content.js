@@ -43,6 +43,8 @@ function createContentHeading() {
     title.textContent = "All Tasks";
     contentTitle.appendChild(title);
 
+    const contentTitleRight = document.createElement('div');
+    contentTitleRight.classList.add('content-title-right');
 
     const dateWrapper = document.createElement('div');
     dateWrapper.classList.add('date-wrapper');
@@ -56,7 +58,25 @@ function createContentHeading() {
     dateWrapper.appendChild(dayDate);
     dateWrapper.appendChild(dayText);
 
-    contentTitle.appendChild(dateWrapper);
+    const addTaskWrapper = document.createElement('div');
+    addTaskWrapper.classList.add('add-task-wrapper');
+
+    //add Task Btn
+    const addTaskBtn = document.createElement('div');
+    addTaskBtn.classList.add('add-task-btn', 'unselectable');
+    addTaskBtn.innerHTML += 'Add task';
+
+    const addTaskPlus = document.createElement('div');
+    addTaskPlus.classList.add('add-task-plus', 'unselectable');
+    addTaskPlus.innerHTML+='<i class="fa-solid fa-plus"></i>';
+
+    addTaskWrapper.appendChild(addTaskBtn);
+    addTaskWrapper.appendChild(addTaskPlus);
+
+    contentTitleRight.appendChild(dateWrapper)
+    contentTitleRight.appendChild(addTaskWrapper);
+    
+    contentTitle.appendChild(contentTitleRight);
     contentHeadingWrapper.appendChild(contentTitle);
     return contentHeadingWrapper;
 }

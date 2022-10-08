@@ -103,8 +103,9 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    grid-row: 2/4;
+    grid-row: 2/-1;
     grid-column: 1/2;
+    height: 100%;
 }
 
 .sidebar-wrapper {
@@ -239,6 +240,13 @@ ul {
     align-items: center;
 }
 
+.content-title-right {
+    margin-left: auto;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
 .date-wrapper {
     display: flex;
     flex-direction: column;
@@ -275,6 +283,7 @@ ul {
 
 .title {
     font-family: 'Nunito', sans-serif;
+    width: 50%;
 }
 
 
@@ -290,7 +299,7 @@ ul {
 
 .task-wrapper {
     height: 60px;
-    width: max(90%);
+    width: 100%;
     display: flex;
     align-items: center;
     border-radius: 15px;
@@ -334,7 +343,6 @@ ul {
     color: #000;
     display: flex;
     width: 99%;
-    margin-right: 3px;
     height: 100%;
     justify-content: space-between;
     align-items: center;
@@ -440,17 +448,14 @@ ul {
 } */
 
 .task-description-wrapper.high {
-    /* border-top: 3px solid var(--red-dark); */
     border-radius: 0;
 }
 
 .task-description-wrapper.medium {
-    /* border-top: 3px solid var(--yellow-dark); */
     border-radius: 0;
 }
 
 .task-description-wrapper.low {
-    /* border-top: 3px solid var(--green-dark); */
     border-radius: 0;
 }
 
@@ -473,16 +478,27 @@ ul {
     position: relative;
     flex-direction: column;
     margin-top: -10px;
-    width: max(90%);
+    width: 100%;
     min-height: 80px;
     height: auto;
     max-height: 300px;
     justify-content: center;
     align-items: center;
-    border: 3px solid black;
-    border-top: none;
-    border-radius: 0 0 25px 25px;
 }
+
+.task-description-wrapper:after {
+    border: 3px solid black;
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    border-radius: 0 0 25px 25px;
+    border-top: none;
+    pointer-events: none;
+}
+
 
 .task-description {
     width: 95%;
@@ -556,18 +572,38 @@ ul {
     resize: none;
 }
 
+.add-task-wrapper {
+    display: flex;
+    align-items: center;
+}
+
 .add-task-btn {
     cursor: pointer;
-    font-size: 20px;
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--gray);
+    color: var(--header-text-color);
+    background-color: var(--header-color);
     height: 40px;
-    border: 2px solid #9D9C9C;
-    width: min(30% - 2rem);
+    width: 125px;
+    border-radius: 25px 0px 0px 25px;
     margin-inline: auto;
     gap: 5px;
+}
+
+.add-task-plus {
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+    font-size: 20px;
+    background-color: var(--header-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--bg-color);
+    border: 3px solid var(--header-text-color);
+    margin-left: -20px;
 }
 
 input,
