@@ -41,6 +41,7 @@ function createFormAndAddTaskWrapper() {
     return ele;
 }
 //creates the div for the add Task button
+//modal
 function createAddTaskBtn() {
     const addTaskBtn = document.createElement('div');
     addTaskBtn.classList.add('add-task-btn', 'unselectable');
