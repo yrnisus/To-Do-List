@@ -102,15 +102,20 @@ function addTask(taskObj) {
         </div>
     </div>
     <div class='task-right'>
-        <div id='task-date-wrapper'>
+     <div id='task-date-wrapper'>
+        <div id='task-day'>${date[1]}</div>
+            <div class='task-date-lower'>
             <div id='task-date'>${date[0]}</div>
-            <div>${date[1]}</div>
+            </div>
         </div>
     <span class='x' id='toggle-description-icon'>
         <i class='task-icon fa-solid fa-circle-chevron-down'></i>
     </span>
     <div class='task-icon' id='task-remove-btn'><i class='fa-solid fa-trash'></i></div>
     </div>`;
+
+  // const dayText = document.createElement('div');
+    // dayText.innerHTML += format(new Date(), 'eeee');
 
 
     const coloredBorderDiv = document.createElement('div');
@@ -190,8 +195,8 @@ function removeTask(taskObj, taskContainer) {
 
 function cleanDate(date) {
     let newDate = [];
-    newDate[0] = format(new Date(date), 'MM/dd');
-    newDate[1] = format(new Date(date), 'yyyy');
+    newDate[0] = format(new Date(date), 'MM/dd/yy');
+    newDate[1] = format(new Date(date), 'eeee');
     return newDate;
 }
 

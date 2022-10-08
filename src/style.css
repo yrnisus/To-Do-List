@@ -159,17 +159,26 @@ ul {
 
 
 .project-add-wrapper {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 #project-add-btn {
+    background-color: var(--header-color);
+    color: var(--header-text-color);
     display: flex;
     gap: 10px;
+    width: 70%;
+    height: 40px;
+    border-radius: 25px;
+}
+
+#project-plus {
 }
 
 #project-add-btn.hidden {
     display: none;
 }
+
 
 #projectName {
     width: 100%;
@@ -247,14 +256,6 @@ ul {
     gap: 10px;
 }
 
-.date-wrapper {
-    display: flex;
-    flex-direction: column;
-    font-size: 18px;
-    color: #999999;
-    margin-left: auto;
-}
-
 .tasks-list {
     display: flex;
     flex-direction: column;
@@ -285,17 +286,6 @@ ul {
     font-family: 'Nunito', sans-serif;
     width: 50%;
 }
-
-
-/* #completion-square {
-    position: absolute;
-    left: 0;
-    width: 30px;
-    height: 30px;
-    border: 3px solid black;
-    background-color: #fff;
-    border-radius: 50%;
-} */
 
 .task-wrapper {
     height: 60px;
@@ -368,7 +358,15 @@ ul {
     justify-content: center;
     align-items: center;
     font-size: 16px;
-    margin-right: 10px;
+    margin: 0 10px;
+}
+
+#task-day {
+    color: #000;
+}
+
+.task-date-lower {
+    display: flex;
 }
 
 .task-left {
@@ -577,7 +575,7 @@ ul {
     align-items: center;
 }
 
-.add-task-btn {
+.add-btn {
     cursor: pointer;
     font-size: 18px;
     display: flex;
@@ -592,7 +590,7 @@ ul {
     gap: 5px;
 }
 
-.add-task-plus {
+.plus-btn {
     height: 38px;
     width: 38px;
     border-radius: 50%;

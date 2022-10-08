@@ -108,9 +108,11 @@ function AddProjectMenu() {
 
     const projectAddBtn = document.createElement('li');
     projectAddBtn.setAttribute('id', "project-add-btn");
+    projectAddBtn.classList.add('unselectable', 'add-btn');
 
     const projectIcon = document.createElement('i');
     projectIcon.classList.add('fa-solid', 'fa-plus');
+    projectIcon.id = 'project-plus';
 
     projectAddBtn.appendChild(projectIcon);
     projectAddBtn.innerHTML += "Add Project";

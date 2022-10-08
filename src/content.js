@@ -46,34 +46,21 @@ function createContentHeading() {
     const contentTitleRight = document.createElement('div');
     contentTitleRight.classList.add('content-title-right');
 
-    const dateWrapper = document.createElement('div');
-    dateWrapper.classList.add('date-wrapper');
-
-    const dayText = document.createElement('div');
-    dayText.innerHTML += format(new Date(), 'eeee');
-
-    const dayDate = document.createElement('div');
-    dayDate.innerHTML += format(new Date(), 'MM/dd');
-
-    dateWrapper.appendChild(dayDate);
-    dateWrapper.appendChild(dayText);
-
     const addTaskWrapper = document.createElement('div');
     addTaskWrapper.classList.add('add-task-wrapper');
 
     //add Task Btn
     const addTaskBtn = document.createElement('div');
-    addTaskBtn.classList.add('add-task-btn', 'unselectable');
+    addTaskBtn.classList.add('add-btn', 'unselectable');
     addTaskBtn.innerHTML += 'Add task';
 
     const addTaskPlus = document.createElement('div');
-    addTaskPlus.classList.add('add-task-plus', 'unselectable');
+    addTaskPlus.classList.add('plus-btn', 'unselectable');
     addTaskPlus.innerHTML+='<i class="fa-solid fa-plus"></i>';
 
     addTaskWrapper.appendChild(addTaskBtn);
     addTaskWrapper.appendChild(addTaskPlus);
 
-    contentTitleRight.appendChild(dateWrapper)
     contentTitleRight.appendChild(addTaskWrapper);
     
     contentTitle.appendChild(contentTitleRight);
