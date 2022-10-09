@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Nunito&family=Pacifico&display=swap');
-
 :root {
     --gray: #BDBDBD;
     --accent-color: #ac83d6;
@@ -24,6 +22,27 @@
     --green-dark: #24BC0B;
 }
 
+@font-face {
+    font-family: 'Pacifico';
+    src: url('./Pacifico-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Nunito';
+    src: url('./Nunito-VariableFont_wght.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Noto Sans JP';
+    src: url('./NotoSansJP-Regular.otf') format('otf');
+    font-weight: 400;
+    font-style: normal;
+  }
+
 
 .unselectable {
     -webkit-user-select: none;
@@ -37,8 +56,7 @@
 }
 
 body {
-    /* font-family: 'Noto Sans JP', sans-serif; */
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Nunito';
     padding: 0;
     margin: 0;
     background-color: var(--bg-color);
@@ -172,8 +190,6 @@ ul {
     border-radius: 25px;
 }
 
-#project-plus {
-}
 
 #project-add-btn.hidden {
     display: none;
@@ -181,7 +197,7 @@ ul {
 
 
 #projectName {
-    width: 100%;
+    width: 95%;
 }
 
 .close-mark {
@@ -221,7 +237,7 @@ ul {
 
 
 .content-container {
-    grid-row: 2/ 3;
+    grid-row: 2/ -1;
     grid-column: 2/3;
     width: 100%;
     height: 100%;
@@ -353,7 +369,9 @@ ul {
 }
 
 #task-name {
-    font-size: 34px;
+    font-size: 24px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 #task-date-wrapper {
@@ -428,26 +446,6 @@ ul {
 #toggle-description-icon {
     display: inline-block;
 }
-
-/* .task-wrapper.high,
-.task-description-wrapper.high {
-    border: 3px solid;
-}
-
-.task-wrapper.medium,
-.task-description-wrapper.medium {
-    border: 3px solid;
-} */
-
-/* .task-wrapper.low,
-.task-description-wrapper.low {
-    border: 3px solid;
-} */
-
-/* .task-description-wrapper.high,
-.task-description-wrapper.medium,
-.task-description-wrapper.low {
-} */
 
 .task-description-wrapper.high {
     border-radius: 0;
@@ -671,4 +669,65 @@ select {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 500px) {
+    header {
+    }
+
+    .menu-icon-wrapper {
+
+    }
+
+    .sidebar {
+        width: 100%;
+        grid-row: 2/-1;
+        grid-column: 1/-1;
+        height: 100%;
+    }
+    
+    .content-container {
+        display: none;
+        grid-column: 1/-1;
+    }
+    
+    .content-container.fullscreen {
+        display: flex;
+        justify-content: center;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+    
+    #task-name {
+        width: 100px;
+        font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #task-date-wrapper {
+        display: none;
+    }
+
+    .task-icon {
+        font-size: 30px;
+    }
+
+    #task-remove-btn {
+        height: 30px;
+        width: 30px;
+    }
+
+    .fa-trash {
+        height: 20px;
+        width: 20px;
+    }
+
+    .fa-pencil {
+        font-size: 20px;
+    }
+
   }

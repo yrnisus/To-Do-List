@@ -1,5 +1,4 @@
-import {format} from 'date-fns'
-import {createFormAndAddTaskWrapper} from './dom-manipulation.js';
+import {createForm} from './dom-manipulation.js';
 // import { format, formatDistance, formatRelative, subDays } from 'date-fns'
 
 
@@ -21,7 +20,7 @@ export default function content() {
     tasksList.setAttribute('id', 'tasks-list')
 
     contentWrapper.appendChild(tasksList);
-    contentWrapper.appendChild(createFormAndAddTaskWrapper());
+    contentWrapper.appendChild(createForm());
 
     contentContainer.appendChild(contentWrapper);
     return contentContainer;

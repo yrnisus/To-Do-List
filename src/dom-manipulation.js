@@ -1,28 +1,12 @@
-import {
-    format
-} from 'date-fns'
-import {
-    Task
-} from './task.js'
-import {
-    newTaskForm,
-    getFormInputs
-} from './form.js'
-import {
-    Project
-} from './project'
-import {
-    Storage
-} from './storage'
-import {
-    create
-} from 'lodash'
-
+import {format} from 'date-fns'
+import {newTaskForm, getFormInputs} from './form.js'
+import {Project} from './project'
+import {Storage} from './storage'
 const taskArray = [];
 
 
 //creates div containing the form for a new task and the add task button
-function createFormAndAddTaskWrapper() {
+function createForm() {
     const ele = document.createElement('div');
     // ele.classList.add('add-wrapper');
     // const newTaskFormWrapper = newTaskForm();
@@ -96,6 +80,7 @@ function addTask(taskObj) {
     let date = cleanDate(taskObj.date)
     task.innerHTML =
         `<div class='task-left'>
+
         <div id='task-completion-btn'><i class='task-icon fa-solid fa-circle-check'></i></div>
         <div class='task-name-date-wrapper'>
             <div id='task-name'>${taskObj.taskName}</div>
@@ -270,8 +255,6 @@ function editModal() {
     const editTaskModal = document.createElement('div');
     editTaskModal.id = 'edit-modal';
     editTaskModal.classList.add('modal');
-
-    console.log()
     const modalContent = document.createElement('div');
     modalContent.classList.add('modal-content');
     modalContent.innerHTML += `<form id="editModalTaskForm" onsubmit="return false" action="#">
@@ -307,18 +290,10 @@ function eventListeners() {
 
         // when add task button is clicked unhide the new task modal
         const addTaskBtn = document.querySelector('.add-task-wrapper')
-        console.log(addTaskBtn);
         const addTaskModal = document.querySelector('#add-task-modal');
         addTaskBtn.addEventListener('click', () => {
-            if (addTaskModal.style.display === "none")
-                console.log("Yes");
             addTaskModal.style.display = 'flex';
         })
-
-        //when either submit or cancel button is clicked hide the form show the add task button
-        // document.getElementById('cancel-btn').addEventListener("click", () => {
-        //     newTaskFormWrapper.classList.add('hidden');
-        // })
 
         //when add project is clicked hide the add project button and show the project name field
         const projectAddBtn = document.getElementById('project-add-btn');
@@ -344,7 +319,6 @@ function eventListeners() {
         allTasks.addEventListener('click', () => {
             changeTabName("All Tasks");
             Storage.setActiveProject(0);
-            // setTasks();
             //testing getting the task list so I can reuse the function for dates
             setTasks(Storage.getTaskList());
         })
@@ -353,7 +327,6 @@ function eventListeners() {
         completedTasks.addEventListener('click', () => {
             changeTabName("Completed Tasks");
             Storage.setActiveProject(0);
-            // setTasks();
             //testing getting the task list so I can reuse the function for dates
             setTasks(Storage.getCompletedTaskList());
         })
@@ -367,7 +340,6 @@ function eventListeners() {
             Storage.setActiveDate('today')
             Storage.setActiveProject(1);
             setTasks(Storage.getTaskList());
-            // setTasks();
         })
 
         const weekBtn = document.getElementById('week-btn');
@@ -377,7 +349,6 @@ function eventListeners() {
             Storage.setActiveDate('week')
             Storage.setActiveProject(1);
             setTasks(Storage.getTaskList());
-            // setTasks();
         })
 
         const monthBtn = document.getElementById('month-btn');
@@ -387,7 +358,6 @@ function eventListeners() {
             Storage.setActiveDate('month')
             Storage.setActiveProject(1);
             setTasks(Storage.getTaskList());
-            // setTasks();
         })
 
         const projectCancelBtn = document.getElementById('project-cancel-btn');
@@ -450,7 +420,6 @@ function addProject(projectObj) {
     newProject.appendChild(newProjectIcon);
     let projectName = capitalizeFirstLetter(projectObj.projectName);
     newProject.innerHTML += projectName;
-    // setProjects(project.getProjectName());
     const newProjectCloseIcon = removeProjectBtn(newProject, projectObj);
 
     newProject.appendChild(newProjectCloseIcon);
@@ -472,12 +441,6 @@ function removeProjectBtn(projectUI, projectObj) {
     hiddenBtn.classList.add('close-mark', 'hidden-btn');
     hiddenBtn.addEventListener('click', () => {
         removeProject(projectUI, projectObj);
-
-        //not working
-        // changeTabName("All Tasks");
-        // Storage.setActiveProject(0);
-        // setTasks(Storage.getTaskList());
-        // console.log("Here")
     })
 
     //put an svg X inside the hidden button
@@ -532,6 +495,6 @@ function changeTabName(tabName) {
 
 eventListeners();
 export {
-    createFormAndAddTaskWrapper,
+    createForm,
     setTasks
 };
